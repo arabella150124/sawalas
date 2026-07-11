@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Administrasi Wali Kelas (SAWAK) - Produksi</title>
+  <title>Sistem Administrasi Wali Kelas Terintegrasi (SAWAK) - Enterprise Edition</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +18,6 @@
   <!-- SweetAlert2 untuk Notifikasi Premium -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- STREAMING_CHUNK: Merancang CSS styling untuk cetak laporan resmi -->
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -44,6 +43,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
+  <!-- STREAMING_CHUNK: Menyusun Menu Bar Atas (Navbar) Utama -->
   <!-- NAVBAR -->
   <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +54,7 @@
               <i class="fa-solid fa-graduation-cap text-lg"></i>
             </div>
             <span class="font-bold text-xl tracking-tight text-blue-900">SAWAK</span>
-            <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-semibold">PRO-V3</span>
+            <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-semibold">ENTERPRISE</span>
           </div>
           <div class="hidden md:ml-8 md:flex md:space-x-6" id="landingNavLinks">
             <a href="#home" onclick="showPage('landing')" class="text-slate-600 hover:text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
@@ -80,20 +80,20 @@
   <main class="flex-grow flex flex-col">
     
     <!-- LANDING PAGE -->
-    <!-- STREAMING_CHUNK: Menyusun Layout Landing Page Utama (Home, Tentang, dll) -->
+    <!-- STREAMING_CHUNK: Menyusun Layout Hero Section Landing Page -->
     <div id="page-landing" class="block">
       <!-- HERO -->
       <div class="bg-white border-b border-slate-200 py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-8 items-center">
           <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-4">
-              RILIS PRODUKSI TERKINI v3.0
+              EDISI SEKOLAH ENTERPRISE v3.0
             </span>
             <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
               Digitalisasi Ruang Kelas <span class="text-blue-600">Anda.</span>
             </h1>
             <p class="mt-3 text-base text-slate-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-              Pusatkan administrasi kelas Anda secara real-time. Kelola kehadiran, deteksi kasus pelanggaran (EWS), pantau sanksi bimbingan konseling melalui diagram interaktif, serta buat laporan resmi kesiswaan secara instan.
+              Pusatkan administrasi sekolah secara real-time. Kelola kehadiran kesiswaan, tindak lanjut sanksi konseling, draf jurnal agenda mengajar, dan inventaris rombel dengan hak akses menu terpisah yang aman.
             </p>
             <div class="mt-8 sm:max-w-lg sm:mx-auto lg:mx-0 flex flex-wrap gap-4">
               <button onclick="openLoginModal()" class="px-6 py-3 border border-transparent text-base font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition shadow-lg w-full sm:w-auto">
@@ -112,86 +112,72 @@
               <p class="text-blue-400"># Memulai Jembatan Serverless API...</p>
               <p class="text-slate-400">Status: <span class="text-emerald-400 font-bold">TERKONEKSI</span></p>
               <p class="text-slate-400">Database: <span class="text-blue-400">Firebase Realtime DB</span></p>
-              <p class="text-slate-400">Rule Enforcer: <span class="text-emerald-400 font-bold">EWS AKTIF</span></p>
-              <p class="mt-4 text-slate-500">// Penanganan Kasus Ketidakhadiran Berjenjang:</p>
-              <p class="text-amber-400">Alpa 3 Hari  => Penerbitan SP 1 (Wali Kelas)</p>
-              <p class="text-orange-400 font-semibold">Alpa 5 Hari  => Penerbitan SP 2 (Mediasi Wali Kelas)</p>
-              <p class="text-rose-500 font-bold">Alpa >=7 Hari => Eskalasi Kasus BK (Sanksi & Konseling)</p>
+              <p class="text-slate-400">Hak Akses: <span class="text-amber-400 font-bold">Terpisah Dinamis (WK, BK, KS, AD)</span></p>
+              <p class="mt-4 text-slate-500">// Tingkat Sanksi Kesiswaan:</p>
+              <p class="text-slate-400">Wali Kelas => Menangani SP 1 & SP 2</p>
+              <p class="text-rose-500 font-bold">Guru BK => Mengunci Kasus di SP 3 (Eskalasi Penuh)</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- STREAMING_CHUNK: Menyajikan informasi profil pengembang dan visi-misi -->
+      <!-- STREAMING_CHUNK: Menyajikan Layout Penjelasan Tentang Aplikasi SAWAK -->
       <!-- TENTANG -->
       <section id="tentang" class="py-16 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Tentang SAWAK</h2>
-            <p class="mt-4 text-lg text-slate-500 max-w-3xl mx-auto">Dirancang khusus untuk membantu Wali Kelas di Indonesia agar terbebas dari tumpukan berkas administrasi manual, menjaga ketertiban, serta merespons kasus kesiswaan secara responsif.</p>
+            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Tentang Platform SAWAK</h2>
+            <p class="mt-4 text-lg text-slate-500 max-w-3xl mx-auto">Dirancang untuk memudahkan birokrasi kesiswaan sekolah di Indonesia melalui pemetaan otorisasi tindakan kesiswaan yang presisi.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
               <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-bullseye text-blue-600"></i> Misi & Visi Modernisasi
+                <i class="fa-solid fa-shield-halved text-blue-600"></i> Pemisahan Peran Dinamis (Security)
               </h3>
               <p class="text-slate-600 leading-relaxed mb-4">
-                Kami percaya digitalisasi sekolah bukan sekadar memindahkan kertas ke layar HP, melainkan menciptakan sistem yang cerdas. SAWAK mengotomatisasi pendeteksian absensi siswa serta menghubungkan alur kerja Wali Kelas langsung ke Bimbingan Konseling (BK) dan Kepala Sekolah dalam hitungan detik.
-              </p>
-              <p class="text-slate-600 leading-relaxed">
-                Dikembangkan menggunakan infrastruktur serverless Google Apps Script dan didukung penuh oleh Firebase Realtime Database untuk performa data yang andal dan aman.
+                Sistem tidak lagi menggunakan modul menu global yang seragam. Sekarang, menu master data dikunci total bagi guru, modul input absensi hanya dipegang Wali Kelas, tindakan sanksi berat dikunci untuk Guru BK, dan Kepala Sekolah memantau seluruh kelas dalam status *Read-Only*.
               </p>
             </div>
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
               <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-user-shield text-blue-600"></i> Pengembang & Keamanan Data
+                <i class="fa-solid fa-network-wired text-blue-600"></i> Jembatan Integrasi REST API
               </h3>
-              <div class="flex items-start gap-4">
-                <div class="p-3 bg-blue-50 rounded-xl text-blue-600 flex-shrink-0">
-                  <i class="fa-solid fa-code text-2xl"></i>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Developer Mitra Sarjanasoft</p>
-                  <p class="text-sm text-slate-500 mb-2">Penyedia Sistem Teknologi Administrasi Pendidikan Nasional.</p>
-                  <p class="text-xs text-slate-500 leading-relaxed">
-                    Sistem keamanan database dilindungi enkripsi Google Apps Script dengan metode komunikasi REST API satu arah dari front-end. Menghindari kebocoran data siswa dan memberikan jaminan orisinalitas berkas laporan.
-                  </p>
-                </div>
-              </div>
+              <p class="text-slate-600 leading-relaxed">
+                Menghubungkan front-end Blogger atau GitHub Pages Anda langsung ke Google Cloud Apps Script dan Firebase Realtime Database. Komunikasi data satu arah yang aman, anti penyusupan, dan sangat cepat.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STREAMING_CHUNK: Menyusun Grid Fitur-Fitur Utama Aplikasi SAWAK -->
       <!-- FITUR -->
       <section id="fitur" class="py-16 bg-white border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
             <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Pilar Utama Sistem</h2>
-            <p class="mt-4 text-lg text-slate-500">Seluruh fitur administrasi kelas diintegrasikan secara cerdas dan real-time.</p>
+            <p class="mt-4 text-lg text-slate-500">Integrasi administratif yang terpetakan berdasarkan tanggung jawab.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition">
               <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 text-xl">
                 <i class="fa-solid fa-users"></i>
               </div>
-              <h3 class="font-bold text-lg text-slate-900 mb-2">Kelola Master Siswa</h3>
-              <p class="text-slate-600 text-sm">Input data identitas, nomor induk, hingga alamat secara terstruktur dengan fitur impor massal menggunakan format berkas CSV.</p>
+              <h3 class="font-bold text-lg text-slate-900 mb-2">Master Administrator</h3>
+              <p class="text-slate-600 text-sm">Tempat khusus untuk mendaftarkan akun guru sekolah, penentuan rombel rombongan belajar kelas, dan template naskah kop surat panggilan resmi.</p>
             </div>
             <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition">
               <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4 text-xl">
-                <i class="fa-solid fa-calendar-check"></i>
+                <i class="fa-solid fa-clipboard-user"></i>
               </div>
-              <h3 class="font-bold text-lg text-slate-900 mb-2">Absensi Cerdas & Instan</h3>
-              <p class="text-slate-600 text-sm">Pencatatan absensi harian kelas hanya dengan beberapa klik. Sistem otomatis menghitung akumulasi bulanan kehadiran secara instan.</p>
+              <h3 class="font-bold text-lg text-slate-900 mb-2">Transaksi Wali Kelas</h3>
+              <p class="text-slate-600 text-sm">Dashboard khusus penulisan presensi kbm harian, log kasus kelas ringan, modul input jurnal belajar mengajar, dan inventaris sarana.</p>
             </div>
             <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:shadow-md transition">
               <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center mb-4 text-xl">
-                <i class="fa-solid fa-circle-exclamation"></i>
+                <i class="fa-solid fa-user-doctor"></i>
               </div>
-              <h3 class="font-bold text-lg text-slate-900 mb-2">Early Warning System (EWS)</h3>
-              <p class="text-slate-600 text-sm">Secara otomatis mendeteksi jumlah Alpa kesiswaan untuk menerbitkan Surat Panggilan (SP) dan mengunci hak akses jika melampaui batas toleransi.</p>
+              <h3 class="font-bold text-lg text-slate-900 mb-2">Unit BK & Kepala Sekolah</h3>
+              <p class="text-slate-600 text-sm">BK mengeskalasi sanksi pemanggilan tingkat ketiga (SP3) secara khusus, sedangkan Kepala Sekolah memantau performa guru dan kesiswaan global.</p>
             </div>
           </div>
         </div>
@@ -207,29 +193,20 @@
           <div class="space-y-4">
             <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
               <button onclick="toggleFaq(1)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
-                <span>Bagaimana cara masuk ke dalam sistem SAWAK?</span>
+                <span>Bagaimana cara kerja pemisahan hak akses menu?</span>
                 <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
               </button>
               <div id="faq-ans-1" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
-                Anda dapat menggunakan username yang sesuai dengan peran Anda (misal: <code class="bg-slate-100 px-1 rounded text-rose-600">admin</code>, <code class="bg-slate-100 px-1 rounded text-rose-600">walikelas</code>, <code class="bg-slate-100 px-1 rounded text-rose-600">gurubk</code>, atau <code class="bg-slate-100 px-1 rounded text-rose-600">kepsek</code>) dengan kata sandi bawaan <code class="bg-slate-100 px-1 rounded">sarjanasoft</code>. Pastikan Anda telah memilih tab peran yang tepat sebelum menekan login.
+                Saat pengguna berhasil login, program secara otomatis mendeteksi peran pengguna kesiswaan dan membangun ulang sidebar navigasi serta menyembunyikan panel data yang tidak sesuai dengan perannya secara ketat.
               </div>
             </div>
             <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
               <button onclick="toggleFaq(2)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
-                <span>Apa yang terjadi jika siswa Alpa lebih dari 3 hari dalam sebulan?</span>
+                <span>Dapatkah Wali Kelas memanipulasi data di BK?</span>
                 <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
               </button>
               <div id="faq-ans-2" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
-                Sistem EWS secara otomatis mendeteksi dan memberi peringatan pada Dashboard Wali Kelas untuk mencetak Surat Panggilan 1 (SP 1) agar segera dilakukan pemanggilan orang tua siswa.
-              </div>
-            </div>
-            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-              <button onclick="toggleFaq(3)" class="w-full text-left px-6 py-4 font-semibold text-slate-900 flex justify-between items-center hover:bg-slate-50">
-                <span>Bagaimana jika siswa tidak masuk lebih dari 7 hari?</span>
-                <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-              </button>
-              <div id="faq-ans-3" class="hidden px-6 pb-4 text-slate-600 text-sm border-t border-slate-100 pt-3">
-                Sistem secara otomatis mengunci tindakan penanganan di sisi Wali Kelas dan mendelegasikan kasus tersebut kepada Guru BK (Bimbingan Konseling) untuk penanganan psikososial lebih mendalam.
+                Tidak bisa. Jika seorang murid mengalami akumulasi Alpa kesiswaan sebanyak 7 kali atau lebih (kategori SP3), akses penanganan kasus murid tersebut terkunci otomatis bagi Wali Kelas dan hanya didelegasikan ke unit Guru BK.
               </div>
             </div>
           </div>
@@ -242,7 +219,6 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
               <h3 class="text-xl font-bold text-slate-900 mb-4">Hubungi Dukungan SAWAK</h3>
-              <p class="text-sm text-slate-500 mb-6">Jika Anda memerlukan integrasi kustom, pemulihan akun, atau sesi pelatihan silakan kirimkan formulir pesan di bawah ini.</p>
               <form onsubmit="handleContact(event)" class="space-y-4">
                 <div>
                   <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap</label>
@@ -265,17 +241,12 @@
               <div class="bg-blue-900 p-6 rounded-2xl text-white">
                 <h4 class="font-bold text-lg mb-2">Kantor Pusat SAWAK Ecosystem</h4>
                 <p class="text-sm text-blue-200 leading-relaxed mb-4">
-                  Gedung Sarjanasoft Digital Tech Park, Lantai 5, Kawasan Edu-Tech Menteng, Jakarta Pusat, Indonesia.
+                  Gedung Sarjanasoft Digital Tech Park, Lantai 5, Jakarta, Indonesia.
                 </p>
                 <div class="space-y-2 text-sm text-blue-100">
                   <p><i class="fa-solid fa-phone mr-2"></i> +62 (21) 500-1122</p>
                   <p><i class="fa-solid fa-envelope mr-2"></i> support@sawak-sarjanasoft.sch.id</p>
                 </div>
-              </div>
-              <div class="mt-6">
-                <p class="text-xs text-slate-400 leading-relaxed text-center">
-                  Aplikasi SAWAK terdaftar di Kementerian Komunikasi & Informatika sebagai platform layanan SaaS edukasi tepercaya di Indonesia.
-                </p>
               </div>
             </div>
           </div>
@@ -283,11 +254,10 @@
       </section>
     </div>
 
-    <!-- STREAMING_CHUNK: Menyusun Modal Login Otentikasi dengan Pilihan Peran Ketat -->
+    <!-- STREAMING_CHUNK: Menyusun Modal Formulir Login Otentikasi Akun -->
     <!-- LOGIN MODAL -->
     <div id="login-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
       <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden transition-all transform scale-100">
-        <!-- Header -->
         <div class="bg-gradient-to-r from-blue-700 to-blue-900 px-6 py-5 text-white flex justify-between items-center">
           <div>
             <h3 class="font-bold text-lg">Pintu Masuk SAWAK</h3>
@@ -300,13 +270,12 @@
         
         <!-- Tab Role Selector -->
         <div class="flex border-b text-xs font-semibold text-center bg-slate-50" id="roleSelector">
-          <button onclick="setLoginRole('Wali Kelas')" id="tabRole-walikelas" class="flex-1 py-3 text-blue-600 border-b-2 border-blue-600">Wali Kelas</button>
+          <button onclick="setLoginRole('Wali Kelas')" id="tabRole-walikelas" class="flex-1 py-3 text-blue-600 border-b-2 border-blue-600 font-bold">Wali Kelas</button>
           <button onclick="setLoginRole('Guru BK')" id="tabRole-gurubk" class="flex-1 py-3 text-slate-500 hover:text-slate-800">Guru BK</button>
           <button onclick="setLoginRole('Kepala Sekolah')" id="tabRole-kepsek" class="flex-1 py-3 text-slate-500 hover:text-slate-800">Kepsek</button>
           <button onclick="setLoginRole('Administrator')" id="tabRole-admin" class="flex-1 py-3 text-slate-500 hover:text-slate-800">Admin</button>
         </div>
 
-        <!-- Form -->
         <form onsubmit="handleLogin(event)" class="p-6 space-y-4">
           <div class="p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-800 flex items-center gap-2">
             <i class="fa-solid fa-circle-info"></i>
@@ -334,47 +303,33 @@
             Otorisasi Akun <i class="fa-solid fa-shield-check ml-1"></i>
           </button>
           <p class="text-center text-xs text-slate-400 mt-2">
-            Password pengembang default: <code class="bg-slate-100 px-1 py-0.5 rounded">sarjanasoft</code>
+            Password bawaan semua peran: <code class="bg-slate-100 px-1 py-0.5 rounded">sarjanasoft</code>
           </p>
         </form>
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK: Menyusun Layout Samping (Sidebar) Dasbor Manajemen Sekolah -->
+    <!-- STREAMING_CHUNK: Menyusun Dasbor Utama dengan Dynamic Sidebar Menu Engine -->
     <!-- DASHBOARD PANEL -->
     <div id="page-dashboard" class="hidden flex-grow flex">
-      <!-- SIDEBAR -->
-      <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col no-print">
+      <!-- SIDEBAR (DILUKIS DINAMIS OLEH JAVASCRIPT SEUSAI ROLE) -->
+      <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col no-print" id="dashboardSidebar">
+        <!-- Container Profile -->
         <div class="p-4 border-b border-slate-800 flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold" id="usrInitials">
-            WK
+            U
           </div>
           <div class="overflow-hidden">
-            <p class="font-semibold text-sm text-white truncate" id="usrFullName">Nama Wali Kelas</p>
-            <p class="text-xs text-slate-500 truncate" id="usrRole">Role: Wali Kelas</p>
+            <p class="font-semibold text-sm text-white truncate" id="usrFullName">User Profile</p>
+            <p class="text-xs text-slate-500 truncate" id="usrRole">Role: -</p>
           </div>
         </div>
-        <nav class="flex-1 p-4 space-y-1 overflow-y-auto text-sm">
-          <button onclick="setDashboardTab('ringkasan')" id="tabLink-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-white bg-blue-600/30 border-l-4 border-blue-500">
-            <i class="fa-solid fa-chart-line text-blue-400 w-5"></i> Ringkasan Dasbor
-          </button>
-          <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Menu Data</div>
-          <button onclick="setDashboardTab('master')" id="tabLink-master" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-database w-5"></i> Master Data Siswa
-          </button>
-          <button onclick="setDashboardTab('transaksi')" id="tabLink-transaksi" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-clipboard-list w-5"></i> Transaksi Harian
-          </button>
-          <button onclick="setDashboardTab('monitoring')" id="tabLink-monitoring" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-bell-concierge w-5"></i> Monitoring Kasus
-          </button>
-          <button onclick="setDashboardTab('laporan')" id="tabLink-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-file-invoice w-5"></i> Cetak Laporan
-          </button>
-          <button onclick="setDashboardTab('pengaturan')" id="tabLink-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
-            <i class="fa-solid fa-gears w-5"></i> Pengaturan
-          </button>
+        
+        <!-- Menu Navigasi Samping Dinamis -->
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto text-sm" id="sidebarMenuContainer">
+          <!-- Dynamic inject -->
         </nav>
+        
         <div class="p-4 border-t border-slate-800 text-xs text-slate-600 text-center">
           SAWAK Engine API v3.0
         </div>
@@ -383,68 +338,29 @@
       <!-- CONTENT MAIN WORKSPACE -->
       <main class="flex-grow p-6 overflow-y-auto bg-slate-50 relative">
         
-        <!-- RINGKASAN DASHBOARD TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 1: RINGKASAN DASBOR (ADAPTING TO ROLE) -->
+        <!-- ========================================== -->
         <div id="tab-ringkasan" class="block space-y-6">
           <div class="flex justify-between items-center border-b pb-4">
             <div>
-              <h2 class="text-2xl font-bold text-slate-900">Dashboard Utama</h2>
+              <h2 class="text-2xl font-bold text-slate-900" id="dashHeaderTitle">Dashboard Utama</h2>
               <p class="text-xs text-slate-500">Ringkasan indikator kinerja utama kesiswaan semester berjalan.</p>
             </div>
-            <div class="flex gap-2">
-              <span class="px-3 py-1 bg-white border rounded-lg text-xs font-semibold text-slate-600 flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                Kelas: <strong id="lblSelectedClass">XII MIPA 1</strong>
-              </span>
-            </div>
+            <span class="px-3 py-1 bg-white border rounded-lg text-xs font-semibold text-slate-600 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              Rombel: <strong id="lblSelectedClass">XII MIPA 1</strong>
+            </span>
           </div>
 
-          <!-- STREAMING_CHUNK: Menyajikan Statistik KPI di Layar Workspace Utama -->
+          <!-- STREAMING_CHUNK: Menyajikan Statistik KPI Sesuai Hak Akses Peran -->
           <!-- KPI WIDGETS -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-xl">
-                <i class="fa-solid fa-calendar-check"></i>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Persentase Kehadiran</p>
-                <h3 class="text-2xl font-extrabold text-slate-900" id="kpiPresensi">98.5%</h3>
-                <p class="text-[10px] text-emerald-600 font-semibold mt-0.5"><i class="fa-solid fa-caret-up"></i> Sangat Baik</p>
-              </div>
-            </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div class="p-3 bg-rose-100 text-rose-600 rounded-xl text-xl">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Kasus Indisipliner</p>
-                <h3 class="text-2xl font-extrabold text-slate-900" id="kpiTotalKasus">0</h3>
-                <p class="text-[10px] text-slate-500 mt-0.5">Bulan Ini</p>
-              </div>
-            </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div class="p-3 bg-amber-100 text-amber-600 rounded-xl text-xl">
-                <i class="fa-solid fa-check-double"></i>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Rasio Penyelesaian</p>
-                <h3 class="text-2xl font-extrabold text-slate-900" id="kpiRasio">100%</h3>
-                <p class="text-[10px] text-slate-500 mt-0.5">Kasus ditangani</p>
-              </div>
-            </div>
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-              <div class="p-3 bg-slate-100 text-slate-600 rounded-xl text-xl">
-                <i class="fa-solid fa-users"></i>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Siswa Rombel</p>
-                <h3 class="text-2xl font-extrabold text-slate-900" id="kpiTotalSiswa">0</h3>
-                <p class="text-[10px] text-slate-500 mt-0.5">Aktif di kelas</p>
-              </div>
-            </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="kpiGridContainer">
+            <!-- KPIs are dynamically loaded depending on role in JS -->
           </div>
 
           <!-- ANALYTIC GRAPHICS -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="dashChartsSection">
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
               <h3 class="font-bold text-slate-900 mb-4 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-chart-column text-blue-600"></i> Perbandingan Kehadiran Bulanan
@@ -455,7 +371,7 @@
             </div>
             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
               <h3 class="font-bold text-slate-900 mb-4 text-sm flex items-center gap-2">
-                <i class="fa-solid fa-chart-pie text-blue-600"></i> Status Eskalasi Peringatan Kesiswaan
+                <i class="fa-solid fa-chart-pie text-blue-600"></i> Status Peringatan Kesiswaan (EWS)
               </h3>
               <div class="h-64 relative flex justify-center">
                 <canvas id="kasusChart"></canvas>
@@ -463,9 +379,8 @@
             </div>
           </div>
 
-          <!-- STREAMING_CHUNK: Menyajikan data log aktivitas terbaru sistem -->
           <!-- RECENT ACTIVITIES & LOG -->
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm" id="dashActivitiesSection">
             <h3 class="font-bold text-slate-900 mb-4 text-sm flex items-center gap-2">
               <i class="fa-solid fa-clock-rotate-left text-blue-600"></i> Log Aktivitas Terakhir
             </h3>
@@ -477,44 +392,44 @@
                     <th class="p-3">Siswa</th>
                     <th class="p-3">Kategori Pelanggaran</th>
                     <th class="p-3">Eskalasi Status</th>
-                    <th class="p-3">Tindakan Akhir</th>
+                    <th class="p-3">Hasil Mediasi</th>
                   </tr>
                 </thead>
                 <tbody id="tblRecentLog">
-                  <tr>
-                    <td colspan="5" class="p-3 text-center text-slate-400">Belum ada log kasus terdaftar di rombel ini.</td>
-                  </tr>
+                  <!-- Load dynamically -->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        <!-- MASTER DATA SISWA TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 2: MASTER DATA (KATEGORI: ADMIN ONLY)  -->
+        <!-- ========================================== -->
         <div id="tab-master" class="hidden space-y-6">
           <div class="flex justify-between items-center border-b pb-4">
             <div>
-              <h2 class="text-2xl font-bold text-slate-900">Master Data Siswa</h2>
-              <p class="text-xs text-slate-500">Kelola informasi murid secara komprehensif.</p>
+              <h2 class="text-2xl font-bold text-slate-900">Master Data Sekolah</h2>
+              <p class="text-xs text-slate-500">Konfigurasi data induk kesiswaan dan rombongan belajar.</p>
             </div>
             <div class="flex gap-2">
               <button onclick="openImportModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow transition">
-                <i class="fa-solid fa-file-import mr-1"></i> Impor CSV
+                <i class="fa-solid fa-file-import mr-1"></i> Impor CSV Siswa
               </button>
               <button onclick="openAddSiswaModal()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow transition">
-                <i class="fa-solid fa-user-plus mr-1"></i> Tambah Siswa
+                <i class="fa-solid fa-user-plus mr-1"></i> Tambah Murid
               </button>
             </div>
           </div>
 
-          <!-- TABEL MASTER -->
           <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
             <div class="p-4 border-b bg-slate-50 flex flex-wrap justify-between items-center gap-3">
+              <span class="text-xs font-bold text-slate-700 uppercase">Daftar Induk Murid Kelas XII MIPA 1</span>
               <div class="relative w-full max-w-xs">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                   <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </span>
-                <input type="text" id="searchSiswa" onkeyup="filterSiswaTable()" class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cari nama atau NISN...">
+                <input type="text" id="searchSiswa" onkeyup="filterSiswaTable()" class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cari murid...">
               </div>
             </div>
             <div class="overflow-x-auto">
@@ -524,10 +439,10 @@
                     <th class="p-3">NISN</th>
                     <th class="p-3">Nama Lengkap</th>
                     <th class="p-3">Jenis Kelamin</th>
-                    <th class="p-3">Total Sakit</th>
-                    <th class="p-3">Total Izin</th>
-                    <th class="p-3">Total Alpa</th>
-                    <th class="p-3">Aksi Opsional</th>
+                    <th class="p-3">Sakit</th>
+                    <th class="p-3">Izin</th>
+                    <th class="p-3">Alpa</th>
+                    <th class="p-3">Tindakan Admin</th>
                   </tr>
                 </thead>
                 <tbody id="tblMasterSiswa">
@@ -538,23 +453,25 @@
           </div>
         </div>
 
-        <!-- TRANSAKSI TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 3: TRANSAKSI HARIAN (WALI KELAS ONLY)  -->
+        <!-- ========================================== -->
+        <!-- STREAMING_CHUNK: Menyusun Tab Transaksi Harian untuk Wali Kelas -->
         <div id="tab-transaksi" class="hidden space-y-6">
           <div class="border-b pb-4">
-            <h2 class="text-2xl font-bold text-slate-900">Transaksi Harian Kelas</h2>
-            <p class="text-xs text-slate-500">Pencatatan absensi, agenda KBM, P5, serta pengelolaan kondisi barang kelas.</p>
+            <h2 class="text-2xl font-bold text-slate-900">Transaksi Harian Wali Kelas</h2>
+            <p class="text-xs text-slate-500">Pencatatan rekap kehadiran, insiden ringan, jurnal KBM dan inventaris rombel.</p>
           </div>
 
-          <!-- STREAMING_CHUNK: Menyajikan Sub-Menu Transaksi Harian Rombel -->
           <!-- SUB-MENU TABS FOR TRANSACTIONS -->
           <div class="flex gap-2 border-b text-xs font-semibold">
-            <button onclick="setTxSubTab('absensi')" id="subTx-absensi" class="py-2.5 px-4 text-blue-600 border-b-2 border-blue-600">Presensi Harian</button>
+            <button onclick="setTxSubTab('absensi')" id="subTx-absensi" class="py-2.5 px-4 text-blue-600 border-b-2 border-blue-600 font-bold">Presensi Harian</button>
             <button onclick="setTxSubTab('kasus')" id="subTx-kasus" class="py-2.5 px-4 text-slate-500 hover:text-slate-800 border-b-2 border-transparent">Buku Catatan Kasus</button>
             <button onclick="setTxSubTab('jurnal')" id="subTx-jurnal" class="py-2.5 px-4 text-slate-500 hover:text-slate-800 border-b-2 border-transparent">Jurnal KBM & P5</button>
             <button onclick="setTxSubTab('inventaris')" id="subTx-inventaris" class="py-2.5 px-4 text-slate-500 hover:text-slate-800 border-b-2 border-transparent">Sarana & Prasarana</button>
           </div>
 
-          <!-- TRANS SUB: ABSENSI -->
+          <!-- SUB-SECTION ABSENSI -->
           <div id="tx-absensi" class="block space-y-4">
             <div class="bg-white p-4 rounded-xl border flex flex-wrap justify-between items-center gap-3">
               <div class="flex items-center gap-3">
@@ -566,26 +483,24 @@
               </button>
             </div>
             <div class="bg-white rounded-xl border overflow-hidden">
-              <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs border-collapse">
-                  <thead>
-                    <tr class="bg-slate-50 border-b font-semibold text-slate-700">
-                      <th class="p-3 w-1/4">Siswa</th>
-                      <th class="p-3 text-center">Hadir</th>
-                      <th class="p-3 text-center">Sakit</th>
-                      <th class="p-3 text-center">Izin</th>
-                      <th class="p-3 text-center">Alpa</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tblTxAbsensi">
-                    <!-- Loaded dynamically -->
-                  </tbody>
-                </table>
-              </div>
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b font-semibold text-slate-700">
+                    <th class="p-3">Murid</th>
+                    <th class="p-3 text-center">Hadir</th>
+                    <th class="p-3 text-center">Sakit</th>
+                    <th class="p-3 text-center">Izin</th>
+                    <th class="p-3 text-center">Alpa</th>
+                  </tr>
+                </thead>
+                <tbody id="tblTxAbsensi">
+                  <!-- Load dynamically -->
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- TRANS SUB: KASUS -->
+          <!-- SUB-SECTION KASUS -->
           <div id="tx-kasus" class="hidden space-y-4">
             <div class="flex justify-between items-center">
               <h3 class="text-sm font-bold text-slate-900">Riwayat Insiden & Penanganan Perilaku</h3>
@@ -600,20 +515,18 @@
                     <th class="p-3">Tanggal</th>
                     <th class="p-3">Siswa</th>
                     <th class="p-3">Kasus</th>
-                    <th class="p-3">Pelanggaran</th>
-                    <th class="p-3">Tindakan Terakhir</th>
+                    <th class="p-3">Tindakan Awal</th>
                     <th class="p-3">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="tblTxKasus">
-                  <!-- Loaded dynamically -->
+                  <!-- Load dynamically -->
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- STREAMING_CHUNK: Menyajikan Formulir Transaksi Jurnal Mengajar Harian -->
-          <!-- TRANS SUB: JURNAL -->
+          <!-- SUB-SECTION JURNAL -->
           <div id="tx-jurnal" class="hidden space-y-4">
             <div class="flex justify-between items-center">
               <h3 class="text-sm font-bold text-slate-900">Agenda Jurnal Mengajar & Catatan P5</h3>
@@ -633,13 +546,13 @@
                   </tr>
                 </thead>
                 <tbody id="tblTxJurnal">
-                  <!-- Loaded dynamically -->
+                  <!-- Load dynamically -->
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- TRANS SUB: INVENTARIS -->
+          <!-- SUB-SECTION INVENTARIS -->
           <div id="tx-inventaris" class="hidden space-y-4">
             <div class="flex justify-between items-center">
               <h3 class="text-sm font-bold text-slate-900">Pencatatan Sarana & Kondisi Fisik Kelas</h3>
@@ -653,44 +566,45 @@
                   <tr class="bg-slate-50 border-b font-semibold text-slate-700">
                     <th class="p-3">Kode Inventaris</th>
                     <th class="p-3">Nama Barang</th>
-                    <th class="p-3">Jumlah</th>
+                    <th class="p-3">Total Unit</th>
                     <th class="p-3">Kondisi Baik</th>
                     <th class="p-3">Kondisi Rusak</th>
                     <th class="p-3">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="tblTxInventaris">
-                  <!-- Loaded dynamically -->
+                  <!-- Load dynamically -->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        <!-- STREAMING_CHUNK: Menyajikan Panel Monitoring Kasus Kesiswaan (EWS & BK) -->
-        <!-- MONITORING TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 4: MONITORING KASUS (WK & BK SENSITIVE)-->
+        <!-- ========================================== -->
+        <!-- STREAMING_CHUNK: Menyusun Modul Monitoring Kasus & EWS -->
         <div id="tab-monitoring" class="hidden space-y-6">
           <div class="border-b pb-4">
-            <h2 class="text-2xl font-bold text-slate-900">Monitoring Kasus (Early Warning System)</h2>
-            <p class="text-xs text-slate-500">Logika penanganan otomatis berjenjang kesiswaan terintegrasi.</p>
+            <h2 class="text-2xl font-bold text-slate-900">Monitoring Kasus Kesiswaan (EWS)</h2>
+            <p class="text-xs text-slate-500">Logika penanganan otomatis terintegrasi. Wali Kelas (SP1-SP2), Guru BK (SP3 / Eskalasi Kritis).</p>
           </div>
 
-          <!-- INFO CARD ALERT BK -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
               <h4 class="font-bold text-amber-800 text-sm flex items-center gap-2 mb-1">
                 <i class="fa-solid fa-circle-exclamation"></i> SP 1 (Alpa >= 3 Hari)
               </h4>
               <p class="text-xs text-amber-700 leading-relaxed">
-                Peringatan otomatis dikirim ke beranda Wali Kelas untuk segera melakukan panggilan pertama terhadap orang tua murid.
+                Wali Kelas wajib melakukan pemanggilan orang tua siswa tingkat pertama.
               </p>
             </div>
             <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl">
               <h4 class="font-bold text-orange-800 text-sm flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-triangle-exclamation"></i> SP 2 (Mediasi)
+                <i class="fa-solid fa-triangle-exclamation"></i> SP 2 (Alpa >= 5 Hari)
               </h4>
               <p class="text-xs text-orange-700 leading-relaxed">
-                Panggilan kedua disertai dengan mediasi langsung antara Wali Kelas dan Wali Murid dengan persetujuan Kepala Sekolah.
+                Panggilan mediasi kedua oleh Wali Kelas disertai draf perjanjian tertulis.
               </p>
             </div>
             <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
@@ -698,26 +612,25 @@
                 <i class="fa-solid fa-ban"></i> Eskalasi BK (Alpa >= 7 Hari)
               </h4>
               <p class="text-xs text-rose-700 leading-relaxed">
-                <strong>Penguncian Otomatis:</strong> Kasus diambil alih oleh unit BK. Tindakan lanjutan dan sanksi dikoordinasikan secara ketat.
+                <strong>Terkunci Bagi Wali Kelas:</strong> Tindakan sanksi & konseling mendalam mutlak ditangani oleh Guru BK.
               </p>
             </div>
           </div>
 
-          <!-- TABLE MONITORING -->
           <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
             <div class="p-4 border-b bg-slate-50">
-              <span class="text-xs font-bold text-slate-700 uppercase">Daftar Pantauan Kasus Aktif</span>
+              <span class="text-xs font-bold text-slate-700 uppercase" id="lblMonHeader">Siswa Dalam Pengawasan Ketat</span>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-slate-100 border-b font-semibold text-slate-700">
                     <th class="p-3">Nama Siswa</th>
-                    <th class="p-3">Jumlah Alpa</th>
-                    <th class="p-3">Tingkat Penanganan</th>
+                    <th class="p-3 text-center">Jumlah Alpa</th>
+                    <th class="p-3">Status Peringatan</th>
                     <th class="p-3">Penanggung Jawab</th>
-                    <th class="p-3">Hasil Pemanggilan / Konseling</th>
-                    <th class="p-3">Tindakan Mediasi</th>
+                    <th class="p-3">Keputusan Konseling/Mediasi</th>
+                    <th class="p-3">Aksi Mediasi</th>
                   </tr>
                 </thead>
                 <tbody id="tblMonitoringEws">
@@ -728,44 +641,18 @@
           </div>
         </div>
 
-        <!-- STREAMING_CHUNK: Menyediakan Generator Template Cetak PDF & Lembar Surat SP -->
-        <!-- LAPORAN TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 5: CETAK LAPORAN (ROLE-SPECIFIC REPORTS)-->
+        <!-- ========================================== -->
+        <!-- STREAMING_CHUNK: Menyusun Modul Laporan dan Print Generator -->
         <div id="tab-laporan" class="hidden space-y-6">
           <div class="border-b pb-4">
-            <h2 class="text-2xl font-bold text-slate-900">Generator & Cetak Laporan</h2>
-            <p class="text-xs text-slate-500">Cetak surat panggilan orang tua, rekap absen, dan berkas kesiswaan resmi.</p>
+            <h2 class="text-2xl font-bold text-slate-900" id="lblLapHeader">Generator Laporan Resmi</h2>
+            <p class="text-xs text-slate-500">Cetak arsip surat panggilan kesiswaan, rekap absensi rombel, dan dokumen administrasi kelas lainnya.</p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3">
-              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-envelope-open-text text-blue-600 mr-2"></i> Surat Panggilan</h3>
-              <p class="text-xs text-slate-500">Pilih siswa dalam daftar pantauan kesiswaan di bawah ini untuk membuat draf Surat Panggilan SP1, SP2, atau SP3 resmi.</p>
-              <div class="space-y-2">
-                <label class="block text-xs font-semibold text-slate-600">Pilih Siswa Target:</label>
-                <select id="lapSiswaSelect" class="w-full px-3 py-2 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
-                  <!-- Load from target monitor -->
-                </select>
-              </div>
-              <button onclick="previewSurat()" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-xs transition shadow-sm">
-                Buka Pratinjau Surat
-              </button>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3">
-              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-table text-blue-600 mr-2"></i> Rekapitulasi Presensi</h3>
-              <p class="text-xs text-slate-500">Unduh berkas rekapitulasi data absensi bulanan secara utuh dalam bentuk pratinjau tabel untuk dicetak.</p>
-              <button onclick="previewRekapAbsensi()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-xs transition shadow-sm">
-                Lihat Rekap Absensi
-              </button>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3">
-              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-boxes-stacked text-blue-600 mr-2"></i> Buku Inventaris</h3>
-              <p class="text-xs text-slate-500">Cetak lembar laporan audit fisik inventaris akhir tahun ajaran.</p>
-              <button onclick="previewLaporanInventaris()" class="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-xs transition shadow-sm">
-                Lihat Laporan Inventaris
-              </button>
-            </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="laporanCardsContainer">
+            <!-- Cards are loaded dynamically depending on user role in JS -->
           </div>
 
           <!-- PRINT DISPLAY FRAME PREVIEW -->
@@ -774,11 +661,13 @@
           </div>
         </div>
 
-        <!-- PENGATURAN TAB -->
+        <!-- ========================================== -->
+        <!-- TAB 6: PENGATURAN (PROFILE & USER SETTINGS)-->
+        <!-- ========================================== -->
         <div id="tab-pengaturan" class="hidden space-y-6">
           <div class="border-b pb-4">
             <h2 class="text-2xl font-bold text-slate-900">Pengaturan Parameter Sistem</h2>
-            <p class="text-xs text-slate-500">Atur profil guru dan batas toleransi ketidakhadiran.</p>
+            <p class="text-xs text-slate-500">Atur profil guru, parameter batas toleransi absensi, dan ubah kata sandi.</p>
           </div>
           <div class="bg-white p-6 rounded-xl border shadow-sm max-w-lg space-y-4">
             <div>
@@ -800,7 +689,7 @@
 
   </main>
 
-  <!-- STREAMING_CHUNK: Merancang Formulir Input Data Melalui Berbagai Jendela Modal -->
+  <!-- STREAMING_CHUNK: Menyusun Jendela Dialog Tambah Data Murid, Kasus, dan Inventaris -->
   <!-- MODALS FOR TRANSACTIONS -->
   <!-- ADD SISWA MODAL -->
   <div id="add-siswa-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -850,7 +739,7 @@
         </div>
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Status Penanganan Awal</label>
-          <input type="text" id="addKasusTindakan" placeholder="Contoh: Pembinaan, Peringatan verbal" required class="w-full px-3 py-2 border hover:border-blue-500 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" id="addKasusTindakan" placeholder="Contoh: Pembinaan, Peringatan verbal" required class="w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <button type="submit" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
           Simpan Laporan Kasus
@@ -936,20 +825,20 @@
 
   <!-- FOOTER -->
   <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-xs text-slate-500 no-print mt-auto">
-    <p class="mb-2">Sistem Administrasi SAWAK &copy; 2026. Dikembangkan Secara Serverless Murni.</p>
-    <p>Powered by Google Apps Script & Firebase Realtime Database.</p>
+    <p class="mb-2">Sistem Administrasi SAWAK &copy; 2026. Edisi Enterprise Sekolah Berdaulat.</p>
+    <p>Powered by Google Apps Script & Firebase Realtime Database REST API.</p>
   </footer>
 
-  <!-- STREAMING_CHUNK: Menyusun logika core javascript engine & model data -->
+  <!-- STREAMING_CHUNK: Menyusun Core Javascript Engine dan Logika Komunikasi Database -->
   <script>
     // =========================================================================
     // KONFIGURASI JEMBATAN API CLOUD (SANGAT KRUSIAL)
     // =========================================================================
     const CONFIG = {
-      // Ganti URL Google Apps Script Web App (GAS) Anda di bawah ini
-      GAS_API_URL: "https://script.google.com/macros/s/AKfycbxXnAaxi5evsF6zcwy4BXTrKLGodOfcJFw8GMu9CKle8xzfKEEKbqBAte4KTEeR9J0i/exec",
+      // Tempelkan URL Google Apps Script Web App (GAS) Anda di bawah ini
+      GAS_API_URL: "https://script.google.com/macros/s/AKfycbznh2CRq524TjvNJ0J6LwhhVotiJrahAB9tL6zJ2d_v5Jea58o1TGVoumfyZ1tgqQ32/exec",
       
-      // Matikan fallback offline ke TRUE jika Anda ingin menguji coba tanpa backend terlebih dahulu
+      // Ubah ke FALSE jika Anda sudah siap menghubungkan cloud database online Firebase secara utuh
       USE_LOCAL_STORAGE_FALLBACK: false 
     };
 
@@ -1016,7 +905,7 @@
           title: "Koneksi API Gagal",
           html: `<div class="text-left text-xs bg-slate-100 p-3 rounded-lg border font-mono text-rose-600 overflow-x-auto">
                   <strong>Pesan Error:</strong> ${err.message}<br><br>
-                  <em>Tip: Tekan F12 lalu cek tab Console untuk analisis mendalam.</em>
+                  <em>Tip: Jalankan deployment GAS dengan status akses 'Anyone'.</em>
                  </div>`,
           icon: "info",
           confirmButtonText: "Gunakan Mode Offline (Lokal)"
@@ -1066,7 +955,7 @@
     }
 
     // =========================================================================
-    // STREAMING_CHUNK: Menyusun logika Grafik Analitik Chart.js
+    // STREAMING_CHUNK: Menyusun konfigurasi grafik analitik Chart.js
     // =========================================================================
     let absensiChartInstance = null;
     let kasusChartInstance = null;
@@ -1149,8 +1038,6 @@
 
     function recalculateDashboardStats() {
       const totalSiswa = state.siswa.length;
-      document.getElementById('kpiTotalSiswa').textContent = totalSiswa;
-
       const todayString = new Date().toISOString().split('T')[0];
       const todayRecords = state.absensi[todayString] || {};
       
@@ -1160,23 +1047,230 @@
         if (status === 'Hadir') hadirCount++;
       });
 
-      const persentaseHadir = totalSiswa > 0 ? ((hadirCount / totalSiswa) * 100).toFixed(1) : 100;
-      document.getElementById('kpiPresensi').textContent = `${persentaseHadir}%`;
-      document.getElementById('kpiTotalKasus').textContent = state.kasus.length;
-
-      let resolved = 0;
-      state.kasus.forEach(k => {
-        if (k.tindakan && k.tindakan.toLowerCase().includes('selesai')) resolved++;
-      });
-      const rasioPenyelesaian = state.kasus.length > 0 ? ((resolved / state.kasus.length) * 100).toFixed(0) : 100;
-      document.getElementById('kpiRasio').textContent = `${rasioPenyelesaian}%`;
-
       renderCharts();
       updateRecentLogTable();
+      renderKPIs();
     }
 
     // =========================================================================
-    // STREAMING_CHUNK: Menyusun Logika Validasi Login Ketat (Anti Bypass)
+    // STREAMING_CHUNK: Menyusun Dashboard KPI Sesuai Otorisasi Peran (Role KPI)
+    // =========================================================================
+    function renderKPIs() {
+      const container = document.getElementById('kpiGridContainer');
+      if (!container || !state.currentUser) return;
+      container.innerHTML = '';
+
+      const totalSiswa = state.siswa.length;
+      const totalKasus = state.kasus.length;
+
+      let cardHtml = '';
+
+      if (state.currentUser.role === 'Administrator') {
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center gap-4">
+            <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-xl"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Total Data Murid</p>
+              <h3 class="text-2xl font-extrabold text-slate-900">${totalSiswa} Siswa</h3>
+            </div>
+          </div>
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center gap-4">
+            <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl text-xl"><i class="fa-solid fa-school"></i></div>
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Status Integrasi</p>
+              <h3 class="text-2xl font-extrabold text-emerald-600">Online Cloud</h3>
+            </div>
+          </div>
+        `;
+      } else if (state.currentUser.role === 'Guru BK') {
+        let escalatedCount = 0;
+        state.siswa.forEach(s => {
+          if (getSiswaAbsensiStats(s.nisn).alpa >= 7) escalatedCount++;
+        });
+
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center gap-4 col-span-2">
+            <div class="p-3 bg-rose-100 text-rose-600 rounded-xl text-xl"><i class="fa-solid fa-ban"></i></div>
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Kasus Ter-Eskalasi ke BK (Alpa >= 7)</p>
+              <h3 class="text-2xl font-extrabold text-slate-900">${escalatedCount} Kasus Aktif</h3>
+            </div>
+          </div>
+        `;
+      } else {
+        // Wali Kelas dan Kepala Sekolah
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center gap-4">
+            <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-xl"><i class="fa-solid fa-calendar-check"></i></div>
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Siswa Rombel</p>
+              <h3 class="text-2xl font-extrabold text-slate-900">${totalSiswa} Murid</h3>
+            </div>
+          </div>
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center gap-4">
+            <div class="p-3 bg-rose-100 text-rose-600 rounded-xl text-xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Total Kasus Kelas</p>
+              <h3 class="text-2xl font-extrabold text-slate-900">${totalKasus} Insiden</h3>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = cardHtml;
+    }
+
+    // =========================================================================
+    // DYNAMIC SIDEBAR NAVIGATOR ENGINE (STRICT SEPARATION OF MENUS)
+    // =========================================================================
+    // STREAMING_CHUNK: Merancang Dynamic Sidebar Navigator Engine Sesuai Peran
+    function renderSidebarMenu() {
+      const container = document.getElementById('sidebarMenuContainer');
+      if (!container || !state.currentUser) return;
+      container.innerHTML = '';
+
+      const role = state.currentUser.role;
+      let menuHtml = `
+        <button onclick="setDashboardTab('ringkasan')" id="tabLink-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-white bg-blue-600/30 border-l-4 border-blue-500 font-bold">
+          <i class="fa-solid fa-chart-line text-blue-400 w-5"></i> Ringkasan Dasbor
+        </button>
+      `;
+
+      if (role === 'Administrator') {
+        menuHtml += `
+          <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Menu Administrator</div>
+          <button onclick="setDashboardTab('master')" id="tabLink-master" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-database w-5"></i> Master Data Murid
+          </button>
+        `;
+      } else if (role === 'Wali Kelas') {
+        menuHtml += `
+          <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Menu Wali Kelas</div>
+          <button onclick="setDashboardTab('transaksi')" id="tabLink-transaksi" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-clipboard-list w-5"></i> Transaksi Harian
+          </button>
+          <button onclick="setDashboardTab('monitoring')" id="tabLink-monitoring" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-bell-concierge w-5"></i> Monitoring SP1 & SP2
+          </button>
+          <button onclick="setDashboardTab('laporan')" id="tabLink-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-file-invoice w-5"></i> Cetak SP1/SP2 & Absen
+          </button>
+        `;
+      } else if (role === 'Guru BK') {
+        menuHtml += `
+          <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Menu Unit BK</div>
+          <button onclick="setDashboardTab('monitoring')" id="tabLink-monitoring" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-gavel w-5"></i> Penanganan SP3 / BK
+          </button>
+          <button onclick="setDashboardTab('laporan')" id="tabLink-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-file-signature w-5"></i> Surat SP3 & Pernyataan
+          </button>
+        `;
+      } else if (role === 'Kepala Sekolah') {
+        menuHtml += `
+          <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Menu Kepala Sekolah</div>
+          <button onclick="setDashboardTab('monitoring')" id="tabLink-monitoring" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-eye w-5"></i> Pantauan Kasus Global
+          </button>
+          <button onclick="setDashboardTab('laporan')" id="tabLink-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+            <i class="fa-solid fa-file-invoice-dollar w-5"></i> Laporan Rombel Sekolah
+          </button>
+        `;
+      }
+
+      menuHtml += `
+        <div class="pt-4 pb-1 text-xs font-semibold text-slate-500 tracking-wider uppercase">Pengaturan</div>
+        <button onclick="setDashboardTab('pengaturan')" id="tabLink-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-gears w-5"></i> Ganti Sandi Profil
+        </button>
+      `;
+
+      container.innerHTML = menuHtml;
+    }
+
+    // =========================================================================
+    // DYNAMIC LAPORAN BUTTONS CARDS ENGINE SEUSAI PERAN LOGIN
+    // =========================================================================
+    // STREAMING_CHUNK: Merancang Layout Dynamic Laporan Cards Seusai Peran
+    function renderLaporanCards() {
+      const container = document.getElementById('laporanCardsContainer');
+      if (!container || !state.currentUser) return;
+      container.innerHTML = '';
+
+      const role = state.currentUser.role;
+      let cardHtml = '';
+
+      if (role === 'Wali Kelas') {
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-envelope-open-text text-blue-600 mr-2"></i> Surat Panggilan SP1 & SP2</h3>
+            <p class="text-xs text-slate-500">Pilih murid kesiswaan binaan untuk menerbitkan naskah fisik Surat Panggilan Orang Tua.</p>
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-slate-600">Pilih Murid Target:</label>
+              <select id="lapSiswaSelect" class="w-full px-3 py-2 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500"></select>
+            </div>
+            <button onclick="previewSurat()" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-xs transition shadow-sm">
+              Buka Pratinjau Surat SP1/SP2
+            </button>
+          </div>
+          <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-table text-blue-600 mr-2"></i> Rekapitulasi Presensi Bulanan</h3>
+              <p class="text-xs text-slate-500">Cetak rekap absensi murid bulanan rombel kelas binaan Anda.</p>
+            </div>
+            <button onclick="previewRekapAbsensi()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-xs transition shadow-sm">
+              Lihat Rekap Absensi
+            </button>
+          </div>
+          <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-boxes-stacked text-blue-600 mr-2"></i> Buku Laporan Inventaris</h3>
+              <p class="text-xs text-slate-500">Pratinjau fisik kondisi audit barang rombel kelas akhir semester.</p>
+            </div>
+            <button onclick="previewLaporanInventaris()" class="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-xs transition shadow-sm">
+              Lihat Laporan Inventaris
+            </button>
+          </div>
+        `;
+      } else if (role === 'Guru BK') {
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-envelope-open-text text-rose-600 mr-2"></i> Surat Panggilan SP3 / BK</h3>
+            <p class="text-xs text-slate-500">Cetak naskah pemanggilan ketiga yang telah didelegasikan dan dikunci ke unit BK.</p>
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-slate-600">Pilih Murid Target:</label>
+              <select id="lapSiswaSelect" class="w-full px-3 py-2 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500"></select>
+            </div>
+            <button onclick="previewSurat()" class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg text-xs transition shadow-sm">
+              Buka Pratinjau Surat SP3
+            </button>
+          </div>
+        `;
+      } else if (role === 'Kepala Sekolah') {
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm space-y-3 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm"><i class="fa-solid fa-print text-emerald-600 mr-2"></i> Laporan Agregat Sekolah</h3>
+              <p class="text-xs text-slate-500">Cetak data agregat kesiswaan rombel XII MIPA 1 untuk pelaporan ke dinas pendidikan.</p>
+            </div>
+            <button onclick="previewRekapAbsensi()" class="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-xs transition shadow-sm">
+              Cetak Laporan Rombel
+            </button>
+          </div>
+        `;
+      } else {
+        cardHtml = `
+          <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-center col-span-3 text-slate-400 italic text-xs">
+            Admin tidak memiliki tugas cetak laporan kesiswaan.
+          </div>
+        `;
+      }
+
+      container.innerHTML = cardHtml;
+    }
+
+    // =========================================================================
+    // LOGIN & AUTENTIKASI SINGLE SIGN-ON (SSO)
     // =========================================================================
     function openLoginModal() {
       document.getElementById('login-modal').classList.remove('hidden');
@@ -1197,12 +1291,13 @@
           if (r === role.toLowerCase().replace(' ', '')) {
             tab.className = "flex-1 py-3 text-blue-600 border-b-2 border-blue-600 font-bold";
           } else {
-            tab.className = "flex-1 py-3 text-slate-500 hover:text-slate-800";
+            tab.className = "flex-1 py-3 text-slate-500 hover:text-slate-800 font-medium";
           }
         }
       });
     }
 
+    // STREAMING_CHUNK: Menyusun logika handleLogin otentikasi ketat
     async function handleLogin(e) {
       if (e) e.preventDefault();
       
@@ -1215,7 +1310,6 @@
         return;
       }
 
-      // Kredensial Produksi dengan Pemetaan Peran yang Sangat Ketat
       const credentials = {
         'admin': { password: 'sarjanasoft', allowedRole: 'Administrator', fullName: 'Administrator Sistem' },
         'walikelas': { password: 'sarjanasoft', allowedRole: 'Wali Kelas', fullName: 'Wali Kelas XII MIPA 1' },
@@ -1226,14 +1320,14 @@
       const userAccount = credentials[usernameInput.toLowerCase()];
 
       if (!userAccount || userAccount.password !== passwordInput) {
-        Swal.fire("Gagal Masuk", "Username atau password yang Anda masukkan salah.", "error");
+        Swal.fire("Gagal Masuk", "Username atau password salah.", "error");
         return;
       }
 
       if (userAccount.allowedRole !== selectedRole) {
         Swal.fire({
           title: "Peran Tidak Sesuai",
-          html: `Akun <strong>"${usernameInput}"</strong> hanya memiliki hak akses sebagai <strong>${userAccount.allowedRole}</strong>.<br><br>Pilih tab <strong>${userAccount.allowedRole}</strong> di atas sebelum login.`,
+          html: `Akun <strong>"${usernameInput}"</strong> hanya memiliki hak akses sebagai <strong>${userAccount.allowedRole}</strong>.<br><br>Pilih tab <strong>${userAccount.allowedRole}</strong> terlebih dahulu sebelum menekan login.`,
           icon: "warning"
         });
         return;
@@ -1263,7 +1357,7 @@
       state.currentUser = null;
       localStorage.removeItem('sawak_user');
       showPage('landing');
-      Swal.fire("Berhasil Keluar", "Sesi kerja Anda telah ditutup.", "success");
+      Swal.fire("Berhasil Keluar", "Sesi kerja kesiswaan berhasil ditutup secara aman.", "success");
     }
 
     // =========================================================================
@@ -1304,7 +1398,7 @@
     }
 
     // =========================================================================
-    // STREAMING_CHUNK: Menyusun logika inisialisasi Dasbor & Pembatasan Akses Multi-Role
+    // INIT DASHBOARD
     // =========================================================================
     async function initDashboard() {
       if (!state.currentUser) return;
@@ -1313,57 +1407,19 @@
       document.getElementById('usrRole').textContent = `Role: ${state.currentUser.role}`;
       document.getElementById('usrInitials').textContent = state.currentUser.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
+      renderSidebarMenu();
       await fetchDataFromServer();
-      applyRolePermissions();
-    }
-
-    function applyRolePermissions() {
-      const role = state.currentUser.role;
-      const masterBtn = document.getElementById('tabLink-master');
-      const txBtn = document.getElementById('tabLink-transaksi');
-      const configBtn = document.getElementById('tabLink-pengaturan');
-
-      masterBtn.classList.remove('hidden');
-      txBtn.classList.remove('hidden');
-      configBtn.classList.remove('hidden');
-
-      if (role === 'Kepala Sekolah') {
-        masterBtn.classList.add('hidden');
-        txBtn.classList.add('hidden');
-        configBtn.classList.add('hidden');
-      } else if (role === 'Guru BK') {
-        masterBtn.classList.add('hidden');
-        txBtn.classList.add('hidden');
-      }
-    }
-
-    function setDashboardTab(tabId) {
-      const tabs = ['ringkasan', 'master', 'transaksi', 'monitoring', 'laporan', 'pengaturan'];
-      tabs.forEach(t => {
-        const el = document.getElementById(`tab-${t}`);
-        const link = document.getElementById(`tabLink-${t}`);
-        if (el) {
-          if (t === tabId) {
-            el.className = "block space-y-6";
-            link.className = "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-white bg-blue-600/30 border-l-4 border-blue-500 font-bold";
-          } else {
-            el.className = "hidden";
-            link.className = "w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition";
-          }
-        }
-      });
-
-      if (tabId === 'master') renderMasterSiswaTable();
-      else if (tabId === 'transaksi') loadAbsensiDate();
-      else if (tabId === 'monitoring') renderMonitoringEwsTable();
-      else if (tabId === 'laporan') populateLaporanSiswaSelect();
+      
+      // Default open ringkasan
+      setDashboardTab('ringkasan');
     }
 
     // =========================================================================
-    // RENDERING TABEL & AKSI (KATEGORI: MASTER DATA)
+    // RENDERING TABEL & AKSI (KATEGORI: MASTER DATA - ADMIN ONLY)
     // =========================================================================
     function renderMasterSiswaTable() {
       const tbody = document.getElementById('tblMasterSiswa');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       state.siswa.forEach(s => {
@@ -1400,7 +1456,7 @@
       const jk = document.getElementById('addSiswaJk').value;
 
       if (state.siswa.find(s => s.nisn === nisn)) {
-        Swal.fire("Gagal", "NISN tersebut sudah terdaftar di sistem.", "error");
+        Swal.fire("Gagal", "NISN sudah terdaftar.", "error");
         return;
       }
 
@@ -1416,11 +1472,10 @@
       }
     }
 
-    // STREAMING_CHUNK: Menyusun logika CRUD Hapus Siswa & Sinkronisasi Cloud
     async function deleteSiswa(nisn) {
       Swal.fire({
         title: "Yakin Hapus?",
-        text: "Seluruh data absensi kesiswaan terkait akan hilang permanen.",
+        text: "Seluruh data kesiswaan murid ini akan dihapus permanen.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, Hapus"
@@ -1429,7 +1484,7 @@
           state.siswa = state.siswa.filter(s => s.nisn !== nisn);
           const res = await sendDataToServer('deleteSiswa', { id: nisn });
           if (res.success) {
-            Swal.fire("Dihapus", "Siswa berhasil dikeluarkan dari daftar.", "success");
+            Swal.fire("Dihapus", "Siswa berhasil dikeluarkan dari rombel.", "success");
             renderMasterSiswaTable();
             recalculateDashboardStats();
           }
@@ -1462,7 +1517,7 @@
     }
 
     // =========================================================================
-    // LOGIKA PRESENSI HARIAN & EVALUASI ABSENSI
+    // LOGIKA PRESENSI HARIAN
     // =========================================================================
     function loadAbsensiDate() {
       let dateVal = document.getElementById('txAbsensiDate').value;
@@ -1472,6 +1527,7 @@
       }
 
       const tbody = document.getElementById('tblTxAbsensi');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       const dayRecords = state.absensi[dateVal] || {};
@@ -1504,16 +1560,18 @@
       
       const res = await sendDataToServer('saveAbsensi', { kelas: state.currentKelas, date: dateVal, records });
       if (res.success) {
-        Swal.fire("Absensi Disimpan", "Rekap absen berhasil disinkronisasi ke server cloud.", "success");
+        Swal.fire("Absensi Disimpan", "Rekap absen bulanan kesiswaan berhasil diperbarui.", "success");
         recalculateDashboardStats();
       }
     }
 
     // =========================================================================
-    // LOGIKA PENULISAN DOKUMEN LAIN (JURNAL, KASUS, INVENTARIS)
+    // DOKUMEN KASUS, JURNAL, INVENTARIS (WK ONLY)
     // =========================================================================
+    // STREAMING_CHUNK: Menyusun Logika Render Transaksi Kasus WK
     function renderTxKasusTable() {
       const tbody = document.getElementById('tblTxKasus');
+      if (!tbody) return;
       tbody.innerHTML = '';
       state.kasus.forEach(k => {
         const tr = document.createElement('tr');
@@ -1522,8 +1580,7 @@
           <td class="p-3">${k.date}</td>
           <td class="p-3 font-semibold text-slate-800">${k.siswaNama}</td>
           <td class="p-3">${k.kasusNama}</td>
-          <td class="p-3">${k.pelanggaran}</td>
-          <td class="p-3 text-emerald-600 font-bold">${k.tindakan}</td>
+          <td class="p-3">${k.tindakan}</td>
           <td class="p-3"><button onclick="deleteKasus('${k.id}')" class="text-rose-600 font-semibold"><i class="fa-solid fa-trash"></i> Hapus</button></td>
         `;
         tbody.appendChild(tr);
@@ -1532,6 +1589,7 @@
 
     function openAddKasusModal() {
       const select = document.getElementById('addKasusSiswa');
+      if (!select) return;
       select.innerHTML = '';
       state.siswa.forEach(s => {
         select.innerHTML += `<option value="${s.nisn}|${s.nama}">${s.nama}</option>`;
@@ -1560,14 +1618,13 @@
       state.kasus.push(data);
       const res = await sendDataToServer('writeKasus', { id, data });
       if (res.success) {
-        Swal.fire("Tercatat", "Kasus perilaku kesiswaan berhasil diregister.", "success");
+        Swal.fire("Tercatat", "Log insiden ringan kesiswaan rombel berhasil terdaftar.", "success");
         closeAddKasusModal();
         renderTxKasusTable();
         recalculateDashboardStats();
       }
     }
 
-    // STREAMING_CHUNK: Menyusun logika pengosongan & hapus data kasus
     async function deleteKasus(id) {
       state.kasus = state.kasus.filter(k => k.id !== id);
       const res = await sendDataToServer('deleteKasus', { id });
@@ -1581,6 +1638,7 @@
     // JURNAL ENGINE
     function renderTxJurnalTable() {
       const tbody = document.getElementById('tblTxJurnal');
+      if (!tbody) return;
       tbody.innerHTML = '';
       state.jurnal.forEach(j => {
         const tr = document.createElement('tr');
@@ -1618,7 +1676,7 @@
       state.jurnal.push(data);
       const res = await sendDataToServer('writeJurnal', { id, data });
       if (res.success) {
-        Swal.fire("Disimpan", "Jurnal mengajar berhasil dicatat.", "success");
+        Swal.fire("Disimpan", "Jurnal agenda mengajar KBM kelas berhasil dicatat.", "success");
         closeAddJurnalModal();
         renderTxJurnalTable();
       }
@@ -1628,7 +1686,7 @@
       state.jurnal = state.jurnal.filter(j => j.id !== id);
       const res = await sendDataToServer('deleteJurnal', { id });
       if (res.success) {
-        Swal.fire("Dihapus", "Log jurnal berhasil dieliminasi.", "success");
+        Swal.fire("Dihapus", "Log agenda mengajar berhasil dieliminasi.", "success");
         renderTxJurnalTable();
       }
     }
@@ -1636,6 +1694,7 @@
     // INVENTARIS ENGINE
     function renderTxInventarisTable() {
       const tbody = document.getElementById('tblTxInventaris');
+      if (!tbody) return;
       tbody.innerHTML = '';
       state.inventaris.forEach(i => {
         const tr = document.createElement('tr');
@@ -1673,7 +1732,7 @@
       state.inventaris.push(data);
       const res = await sendDataToServer('writeInventaris', { id: kode, data });
       if (res.success) {
-        Swal.fire("Ditambahkan", "Inventaris sarana berhasil diregister.", "success");
+        Swal.fire("Ditambahkan", "Aset fisik inventaris rombel berhasil diregister.", "success");
         closeAddInventarisModal();
         renderTxInventarisTable();
       }
@@ -1683,37 +1742,44 @@
       state.inventaris = state.inventaris.filter(i => i.kode !== kode);
       const res = await sendDataToServer('deleteInventaris', { id: kode });
       if (res.success) {
-        Swal.fire("Dihapus", "Inventaris dibatalkan register.", "success");
+        Swal.fire("Dihapus", "Register aset inventaris rombel dibatalkan.", "success");
         renderTxInventarisTable();
       }
     }
 
     // =========================================================================
-    // STREAMING_CHUNK: Menyusun logika Evaluasi Peringatan SP dan Eskalasi Otomatis BK
+    // LOGIKA PENANGANAN EARLY WARNING SYSTEM (EWS) & ESKALASI BK
     // =========================================================================
+    // STREAMING_CHUNK: Menyusun logika Monitoring EWS dan Penanganan SP3
     function renderMonitoringEwsTable() {
       const tbody = document.getElementById('tblMonitoringEws');
+      if (!tbody) return;
       tbody.innerHTML = '';
+
+      const role = state.currentUser.role;
 
       state.siswa.forEach(s => {
         const stats = getSiswaAbsensiStats(s.nisn);
         if (stats.alpa >= 3) {
           let statusText = 'SP 1 (Panggilan 1)';
           let badgeColor = 'bg-amber-100 text-amber-800';
-          let actionAllowed = true;
+          let actionAllowed = false;
 
           if (stats.alpa >= 7) {
-            statusText = 'Eskalasi Unit BK';
+            statusText = 'Eskalasi Unit BK (SP 3)';
             badgeColor = 'bg-rose-100 text-rose-800 font-extrabold';
-            // Hanya unit BK yang diizinkan memproses mediasi di tingkat kritis (SP 3)
-            actionAllowed = (state.currentUser && state.currentUser.role === 'Guru BK');
+            // Hanya Guru BK dan Kepala Sekolah (Read-Only) yang dapat melihat tindakan kesiswaan kritis (>=7 Alpa)
+            actionAllowed = (role === 'Guru BK');
           } else if (stats.alpa >= 5) {
             statusText = 'SP 2 (Mediasi)';
             badgeColor = 'bg-orange-100 text-orange-800 font-bold';
-            actionAllowed = (state.currentUser && state.currentUser.role === 'Wali Kelas');
+            actionAllowed = (role === 'Wali Kelas');
           } else {
-            actionAllowed = (state.currentUser && state.currentUser.role === 'Wali Kelas');
+            actionAllowed = (role === 'Wali Kelas');
           }
+
+          // Jika Kepala Sekolah, paksa read-only (tidak diizinkan klik tombol edit mediasi)
+          if (role === 'Kepala Sekolah') actionAllowed = false;
 
           const logVal = state.logPenanganan[s.nisn] || 'Menunggu tindakan penanganan...';
 
@@ -1727,8 +1793,8 @@
             <td class="p-3 italic text-slate-500">${logVal}</td>
             <td class="p-3">
               ${actionAllowed ? 
-                `<button onclick="processMediasi('${s.nisn}')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold shadow-sm transition">Proses Mediasi</button>` : 
-                `<span class="text-xs text-slate-400 italic">Terkunci (Sesuai Role)</span>`
+                `<button onclick="processMediasi('${s.nisn}')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold shadow-sm transition">Tindak Lanjut</button>` : 
+                `<span class="text-xs text-slate-400 italic"><i class="fa-solid fa-lock"></i> Terkunci</span>`
               }
             </td>
           `;
@@ -1741,7 +1807,7 @@
       Swal.fire({
         title: "Tulis Catatan Konseling & Mediasi",
         input: "textarea",
-        inputPlaceholder: "Tuliskan hasil keputusan mediasi orang tua / bimbingan konseling di sini...",
+        inputPlaceholder: "Tuliskan hasil keputusan mediasi orang tua / sanksi perilaku kesiswaan di sini...",
         showCancelButton: true,
         confirmButtonText: "Simpan Keputusan"
       }).then(async (result) => {
@@ -1749,7 +1815,7 @@
           state.logPenanganan[nisn] = result.value;
           const res = await sendDataToServer('saveLogPenanganan', { key: nisn, value: result.value });
           if (res.success) {
-            Swal.fire("Tersimpan", "Hasil keputusan mediasi berhasil diperbarui.", "success");
+            Swal.fire("Tersimpan", "Hasil keputusan mediasi kesiswaan berhasil diperbarui.", "success");
             renderMonitoringEwsTable();
             recalculateDashboardStats();
           }
@@ -1768,13 +1834,10 @@
         if (stats.alpa >= 3 && count < 5) {
           count++;
           let statusText = 'SP 1 Terbit';
-          let escText = 'Wali Kelas';
           if (stats.alpa >= 7) {
             statusText = 'SP 3 Terbit';
-            escText = 'Unit BK (Lock)';
           } else if (stats.alpa >= 5) {
             statusText = 'SP 2 Terbit';
-            escText = 'Wali Kelas & Wali';
           }
 
           const decision = state.logPenanganan[s.nisn] || 'Menunggu hasil mediasi...';
@@ -1793,12 +1856,12 @@
       });
 
       if (count === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400">Belum ada aktivitas sanksi kesiswaan saat ini.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400">Belum ada aktivitas kesiswaan terbaru saat ini.</td></tr>`;
       }
     }
 
     // =========================================================================
-    // METODE IMPOR DATA MASSAL CSV
+    // IMPOR DATA CSV MASSAL
     // =========================================================================
     function openImportModal() {
       document.getElementById('import-modal').classList.remove('hidden');
@@ -1831,34 +1894,43 @@
         }
       }
 
-      Swal.fire("Berhasil", `${successCount} Data siswa berhasil diimpor ke sistem.`, "success");
+      Swal.fire("Berhasil", `${successCount} Data murid berhasil diimpor ke rombel kelas.`, "success");
       closeImportModal();
       renderMasterSiswaTable();
       recalculateDashboardStats();
     }
 
     // =========================================================================
-    // METODE LAPORAN & GENERATOR SURAT RESMI TIMES NEW ROMAN
+    // GENERATOR LAPORAN & SURAT RESMI TIMES NEW ROMAN
     // =========================================================================
+    // STREAMING_CHUNK: Menyusun lembar draf cetak Surat Panggilan Berjenjang
     function populateLaporanSiswaSelect() {
+      renderLaporanCards();
       const select = document.getElementById('lapSiswaSelect');
+      if (!select) return;
       select.innerHTML = '';
+
+      const role = state.currentUser.role;
+
       state.siswa.forEach(s => {
         const stats = getSiswaAbsensiStats(s.nisn);
         if (stats.alpa >= 3) {
-          select.innerHTML += `<option value="${s.nisn}">${s.nama} (${stats.alpa} Alpa)</option>`;
+          if (role === 'Wali Kelas' && stats.alpa < 7) {
+            select.innerHTML += `<option value="${s.nisn}">${s.nama} (${stats.alpa} Alpa)</option>`;
+          } else if (role === 'Guru BK' && stats.alpa >= 7) {
+            select.innerHTML += `<option value="${s.nisn}">${s.nama} (${stats.alpa} Alpa)</option>`;
+          }
         }
       });
       if (select.innerHTML === '') {
-        select.innerHTML = `<option value="">Tidak ada siswa di bawah pengawasan EWS</option>`;
+        select.innerHTML = `<option value="">Tidak ada siswa di bawah rentang EWS Anda</option>`;
       }
     }
 
-    // STREAMING_CHUNK: Merancang draf lembaran cetak Surat Panggilan Berjenjang (SP1, SP2, SP3)
     function previewSurat() {
       const nisn = document.getElementById('lapSiswaSelect').value;
       if (!nisn) {
-        Swal.fire("Pilih Siswa", "Tidak ada target siswa terpilih untuk membuat surat.", "warning");
+        Swal.fire("Pilih Siswa", "Tidak ada target siswa kesiswaan dalam rentang EWS peran Anda.", "warning");
         return;
       }
 
@@ -1874,20 +1946,17 @@
 
       printArea.innerHTML = `
         <div style="font-family: 'Times New Roman', Times, serif; color: #000;" class="p-8">
-          <!-- KOP SURAT -->
           <div class="text-center border-b-4 border-double border-black pb-4">
             <h2 class="text-lg font-bold uppercase">PEMERINTAH PROVINSI REPUBLIK INDONESIA</h2>
             <h1 class="text-xl font-extrabold uppercase">DINAS PENDIDIKAN DAN KEBUDAYAAN</h1>
             <h1 class="text-lg font-bold uppercase">SMA NEGERI SAWAK UNGGULAN INDONESIA</h1>
-            <p class="text-xs">Jalan Raya Menteng No. 5, Jakarta Pusat. Telp: (021) 500-1122. Website: sawak.sch.id</p>
+            <p class="text-xs">Jalan Raya Menteng No. 5, Jakarta. Telp: (021) 500-1122. Website: sawak.sch.id</p>
           </div>
 
-          <!-- ISI SURAT -->
           <div class="mt-8 space-y-4 text-sm leading-relaxed text-justify">
             <div class="flex justify-between">
               <div>
                 <p>Nomor : 045/SMAN-SAWAK/SP/2026</p>
-                <p>Lampiran : -</p>
                 <p>Hal : <strong>Surat Panggilan Orang Tua - ${spTingkat}</strong></p>
               </div>
               <div class="text-right">
@@ -1903,7 +1972,7 @@
 
             <p>Dengan hormat,</p>
             <p>
-              Sehubungan dengan menurunnya tingkat kehadiran putra/putri Bapak/Ibu di kelas berdasarkan data rekapitulasi absensi digital kelas SMAN SAWAK, dengan ini kami mengharapkan kehadiran Bapak/Ibu Orang Tua/Wali dari siswa:
+              Sehubungan dengan menurunnya tingkat kehadiran kesiswaan putra/putri Bapak/Ibu di rombel kelas XII MIPA 1 berdasarkan audit presensi digital kesiswaan, kami mengharapkan kehadiran Bapak/Ibu pada:
             </p>
 
             <table class="w-full my-4 border-none text-sm">
@@ -1921,44 +1990,35 @@
               </tr>
             </table>
 
-            <p>Untuk hadir menemui sekolah pada:</p>
             <table class="w-full my-4 border-none text-sm">
               <tr>
                 <td class="w-32 py-1">Hari, Tanggal</td>
                 <td class="py-1">: Senin, ${new Date(Date.now() + 86400000 * 2).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
               </tr>
               <tr>
-                <td class="py-1">Waktu</td>
-                <td class="py-1">: 09.00 WIB s.d Selesai</td>
-              </tr>
-              <tr>
                 <td class="py-1">Tempat</td>
-                <td class="py-1">: Ruang Bimbingan Konseling (BK) / Wali Kelas XII MIPA 1</td>
+                <td class="py-1">: Ruang Bimbingan Konseling (BK) / Wali Kelas SMAN SAWAK</td>
               </tr>
             </table>
 
             <p>
-              Demikian surat panggilan ini kami sampaikan. Atas perhatian dan kerja sama yang baik dari Bapak/Ibu, kami ucapkan terima kasih.
+              Atas perhatian dan kehadiran Bapak/Ibu Orang Tua/Wali tepat pada waktunya, kami ucapkan terima kasih.
             </p>
           </div>
 
-          <!-- TANDA TANGAN -->
           <div class="mt-12 flex justify-between text-sm">
             <div class="text-center w-48">
               <p>Mengetahui,</p>
               <p class="mb-16">Wali Kelas XII MIPA 1</p>
               <p class="underline font-bold">Wali Kelas SAWAK, S.Pd.</p>
-              <p>NIP. 19820302 201103 1 002</p>
             </div>
             <div class="text-center w-48">
               <p>&nbsp;</p>
               <p class="mb-16">Kepala Sekolah SMAN SAWAK</p>
               <p class="underline font-bold">Kepsek SMAN SAWAK, M.Pd.</p>
-              <p>NIP. 19740201 200210 2 001</p>
             </div>
           </div>
 
-          <!-- BTN PRINT NO-PRINT -->
           <div class="mt-8 text-center no-print">
             <button onclick="window.print()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
               <i class="fa-solid fa-print mr-2"></i> Jalankan Dialog Cetak Surat (PDF)
@@ -1991,7 +2051,7 @@
         <div style="font-family: 'Times New Roman', Times, serif; color: #000;" class="p-8">
           <div class="text-center mb-6">
             <h1 class="text-lg font-bold uppercase">REKAPITULASI PRESENSI BULANAN KELAS</h1>
-            <p class="text-sm">Kelas: XII MIPA 1 | Semester Ganjil TA 2026/2027</p>
+            <p class="text-sm">Kelas: XII MIPA 1 | TA 2026/2027</p>
           </div>
           <table class="w-full text-xs text-left border-collapse border border-black">
             <thead>
@@ -2009,7 +2069,7 @@
           </table>
           <div class="mt-8 text-center no-print">
             <button onclick="window.print()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
-              <i class="fa-solid fa-print mr-2"></i> Jalankan Dialog Cetak Laporan (PDF)
+              <i class="fa-solid fa-print mr-2"></i> Cetak Laporan Rekapitulasi
             </button>
           </div>
         </div>
@@ -2037,8 +2097,8 @@
       printArea.innerHTML = `
         <div style="font-family: 'Times New Roman', Times, serif; color: #000;" class="p-8">
           <div class="text-center mb-6">
-            <h1 class="text-lg font-bold uppercase">LAPORAN AUDIT SARANA DAN PRASARANA FISIK KELAS</h1>
-            <p class="text-sm">Kelas: XII MIPA 1 | Akhir Tahun Ajaran 2026/2027</p>
+            <h1 class="text-lg font-bold uppercase">LAPORAN AUDIT SARANA KELAS</h1>
+            <p class="text-sm">Kelas: XII MIPA 1 | SMAN SAWAK</p>
           </div>
           <table class="w-full text-xs text-left border-collapse border border-black">
             <thead>
@@ -2056,7 +2116,7 @@
           </table>
           <div class="mt-8 text-center no-print">
             <button onclick="window.print()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
-              <i class="fa-solid fa-print mr-2"></i> Jalankan Dialog Cetak Laporan (PDF)
+              <i class="fa-solid fa-print mr-2"></i> Cetak Laporan Inventaris
             </button>
           </div>
         </div>
@@ -2064,13 +2124,10 @@
       printArea.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // =========================================================================
-    // METODE EDIT DAN UBAH PENGATURAN USER
-    // =========================================================================
     function saveSettings() {
       const p = document.getElementById('cfgNewPassword').value;
       if (p) {
-        Swal.fire("Berhasil", "Kata sandi akun Anda berhasil diperbarui di sistem.", "success");
+        Swal.fire("Berhasil", "Sandi profil akun kesiswaan Anda berhasil diperbarui.", "success");
         document.getElementById('cfgNewPassword').value = '';
       }
     }
