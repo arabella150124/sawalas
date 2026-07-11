@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem SAWAK - Administrasi Wali Kelas</title>
+  <title>Sistem SAWAK - Administrasi Wali Kelas Terintegrasi</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,8 +13,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- Google Fonts (Inter) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts (Inter & Playfair) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
   
   <script>
     tailwind.config = {
@@ -22,10 +22,12 @@
         extend: {
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
           },
           colors: {
             academic: {
               navy: '#1E3A8A',
+              navyHover: '#172E6D',
               sky: '#3B82F6',
               lightSky: '#EFF6FF',
               dark: '#0F172A',
@@ -56,7 +58,7 @@
       background: #94a3b8;
     }
 
-    /* Optimalisasi layout A4 saat dicetak */
+    /* Optimalisasi Layout Cetak Berstandar Sekolah (Times New Roman) */
     @media print {
       body * {
         visibility: hidden;
@@ -84,6 +86,7 @@
 
   <!-- ================= LANDING PAGE SECTION ================= -->
   <div id="landingPage" class="min-h-screen flex flex-col">
+    <!-- Navbar Premium -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -113,7 +116,8 @@
       </div>
     </header>
 
-    <section id="home" class="relative overflow-hidden py-20 bg-gradient-to-b from-white via-slate-50 to-white flex-1 flex items-center">
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-white via-slate-50 to-white flex-1 flex items-center">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
         <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-academic-sky text-[10px] font-bold uppercase tracking-wider">
@@ -129,9 +133,13 @@
             <button onclick="toggleAuthModal(true)" class="w-full sm:w-auto bg-academic-navy text-white px-8 py-4 rounded-2xl font-bold hover:bg-academic-sky transition-all shadow-lg shadow-academic-navy/20 flex items-center justify-center gap-2 text-sm">
               Mulai Akses Dasbor <i class="fa-solid fa-circle-arrow-right"></i>
             </button>
+            <a href="#demoQuickLogin" onclick="quickDemoLogin()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 text-sm border border-slate-200">
+              <i class="fa-solid fa-play text-xs text-academic-sky"></i> Coba Demo Instan
+            </a>
           </div>
         </div>
         <div class="lg:col-span-5 relative">
+          <!-- Ilustrasi Mockup Widget -->
           <div class="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-indigo-100 rounded-3xl filter blur-2xl opacity-70 animate-pulse -z-10"></div>
           <div class="bg-white border border-slate-200 p-6 rounded-3xl shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b pb-4">
@@ -139,40 +147,173 @@
               <span class="px-2 py-0.5 rounded bg-rose-50 text-[10px] text-rose-500 font-extrabold tracking-wide">SP3 Terpicu</span>
             </div>
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold">R</div>
+              <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-academic-rose font-bold">R</div>
               <div>
                 <h4 class="font-extrabold text-sm text-academic-navy">Rendi Pratama</h4>
                 <p class="text-xs text-slate-400">Total Absensi Alpa: <span class="font-extrabold text-academic-rose">8 Hari</span></p>
               </div>
             </div>
             <p class="p-3 bg-slate-50 border rounded-xl text-[11px] text-slate-500 leading-relaxed italic">
-              "Kewenangan penanganan kasus didelegasikan otomatis ke unit Bimbingan Konseling (BK) untuk tindakan konseling."
+              "Siswa melampaui batas toleransi alpa bulanan. Kasus dialihkan secara otomatis ke unit Bimbingan Konseling (BK)."
             </p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Tentang Section -->
     <section id="tentang" class="py-16 bg-slate-50 border-y border-slate-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div class="text-center max-w-3xl mx-auto space-y-3">
-          <h2 class="text-3xl font-black text-academic-navy">Visi, Misi & Pengembang</h2>
-          <p class="text-slate-500 text-sm">Sistem ini memfasilitasi koordinasi terpusat demi menegakkan karakter disiplin dan keteraturan siswa.</p>
+          <h2 class="text-3xl font-black text-academic-navy">Visi, Misi & Sinergitas</h2>
+          <p class="text-slate-500 text-sm">Menghubungkan birokrasi kesiswaan demi menumbuhkan karakter disiplin dan tanggung jawab siswa secara terukur.</p>
         </div>
         <div class="grid md:grid-cols-2 gap-8">
           <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
-            <h3 class="font-bold text-base text-academic-navy">Sinergi & Kepatuhan</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Mendukung otomatisasi alur kerja wali kelas dengan BK agar tidak ada berkas administrasi dan data penanganan kesiswaan yang terlewat atau tercecer secara manual.</p>
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-academic-sky flex items-center justify-center text-lg"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 class="font-bold text-base text-academic-navy">Sinergi & Koordinasi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Otomatisasi pengiriman draf panggilan wali murid dari Wali Kelas ke unit Bimbingan Konseling (BK) mempercepat rantai penanganan indisipliner tanpa hambatan kertas berkas fisik.</p>
           </div>
           <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
-            <h3 class="font-bold text-base text-academic-navy">Keamanan Murni Firebase</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Data terjamin aman dan bersifat serverless memanfaatkan integrasi API tangguh antara Google Apps Script dengan Firebase Realtime Database.</p>
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-academic-emerald flex items-center justify-center text-lg"><i class="fa-solid fa-database"></i></div>
+            <h3 class="font-bold text-base text-academic-navy">Serverless & Real-time</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Berjalan murni serverless berkat perpaduan tangguh Google Apps Script Web App dan REST API Firebase Realtime Database. Cepat, aman, dan tanpa biaya sewa server bulanan.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-slate-900 text-center text-xs">
+    <!-- Fitur Section -->
+    <section id="fitur" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <h2 class="text-3xl font-black text-academic-navy">Pilar Fungsionalitas SAWAK</h2>
+          <p class="text-slate-500 text-sm">Satu ekosistem lengkap untuk melayani seluruh administrasi dan operasional harian ruang kelas.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-clipboard-user text-academic-sky text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">Absensi Cerdas</h4>
+            <p class="text-xs text-slate-500">Input harian cepat dan otomatis dikalkulasi ke dalam sistem deteksi ketidakhadiran berjenjang.</p>
+          </div>
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-triangle-exclamation text-academic-rose text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">EWS Berjenjang</h4>
+            <p class="text-xs text-slate-500">Otomatisasi pengkategorian status siswa (SP1, SP2, SP3) berdasarkan total hari ketidakhadiran (Alpa).</p>
+          </div>
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-print text-academic-emerald text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">Cetak Surat Instan</h4>
+            <p class="text-xs text-slate-500">Mencetak draf surat panggilan orang tua dan surat pernyataan komitmen siswa secara rapi menggunakan layout cetak.</p>
+          </div>
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-book-open text-academic-amber text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">Jurnal & P5</h4>
+            <p class="text-xs text-slate-500">Catat agenda mengajar, aktivitas P5, dan kejadian penting harian dalam ruang kelas terintegrasi.</p>
+          </div>
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-boxes-stacked text-indigo-500 text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">Inventaris Kelas</h4>
+            <p class="text-xs text-slate-500">Manajemen sarana fisik, kode aset, mutasi unit, dan deteksi penyusutan barang kelas.</p>
+          </div>
+          <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2">
+            <i class="fa-solid fa-file-shield text-teal-500 text-xl"></i>
+            <h4 class="font-bold text-xs uppercase tracking-wider text-academic-navy">Dokumen Cloud</h4>
+            <p class="text-xs text-slate-500">Tautkan berkas penting pendukung kurikulum, SK, atau file pendukung lainnya menggunakan link Google Drive.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="layanan" class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <h2 class="text-3xl font-black text-academic-navy">Jaminan Layanan & Dukungan</h2>
+        <div class="grid md:grid-cols-3 gap-6 text-left">
+          <div class="bg-white p-6 rounded-2xl border space-y-2">
+            <h4 class="font-bold text-sm text-academic-navy">Bimbingan Teknis</h4>
+            <p class="text-xs text-slate-500">Kami menyediakan petunjuk integrasi lengkap untuk admin sekolah agar mudah melakukan setup awal.</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border space-y-2">
+            <h4 class="font-bold text-sm text-academic-navy">Keamanan Murni</h4>
+            <p class="text-xs text-slate-500">Penyimpanan murni di Firebase Realtime Database milik sekolah Anda sendiri. Kontrol penuh di tangan Anda.</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border space-y-2">
+            <h4 class="font-bold text-sm text-academic-navy">Responsive Service</h4>
+            <p class="text-xs text-slate-500">Hubungi email bantuan kapan saja untuk mendapatkan pembaruan fungsional atau kustomisasi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section (Accordion) -->
+    <section id="faq" class="py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <h2 class="text-3xl font-black text-academic-navy text-center">Tanya & Jawab</h2>
+        <div class="space-y-4">
+          <details class="group border rounded-2xl p-4 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 cursor-pointer">
+            <summary class="flex items-center justify-between gap-1.5 text-xs font-extrabold text-academic-navy">
+              <span>Bagaimana cara melakukan login bawaan?</span>
+              <span class="transition duration-300 group-open:-rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <p class="mt-3 text-xs leading-relaxed text-slate-500">
+              Pilih peran Anda (Wali Kelas / BK / Kepsek / Admin), ketik nama pengguna apa saja, dan gunakan kata sandi utama default kami: <strong class="text-academic-navy">sarjanasoft</strong>.
+            </p>
+          </details>
+
+          <details class="group border rounded-2xl p-4 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 cursor-pointer">
+            <summary class="flex items-center justify-between gap-1.5 text-xs font-extrabold text-academic-navy">
+              <span>Apa yang terjadi jika siswa Alpa 3 hari dalam sebulan?</span>
+              <span class="transition duration-300 group-open:-rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <p class="mt-3 text-xs leading-relaxed text-slate-500">
+              Sistem EWS secara otomatis mendeteksi siswa tersebut dan memberi label status "Panggilan Pertama (SP1)". Wali kelas dapat memicu dan mencetak dokumen SP1 instan.
+            </p>
+          </details>
+
+          <details class="group border rounded-2xl p-4 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 cursor-pointer">
+            <summary class="flex items-center justify-between gap-1.5 text-xs font-extrabold text-academic-navy">
+              <span>Bagaimana status siswa di atas 7 Alpa?</span>
+              <span class="transition duration-300 group-open:-rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <p class="mt-3 text-xs leading-relaxed text-slate-500">
+              Kasus siswa akan otomatis dikunci dari dashboard Wali Kelas dan langsung dieksalasi ke dashboard Guru BK. Hanya Guru BK yang berwenang memproses mediasi penyelesaian kasus ini.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kontak Section -->
+    <section id="kontak" class="py-16 bg-slate-50 border-t">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12">
+        <div class="space-y-4">
+          <h2 class="text-3xl font-black text-academic-navy">Hubungi Kami</h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Butuh solusi kustomisasi integrasi sistem administrasi akademik atau migrasi data massal sekolah? Tim pengembang kami siap membantu Anda kapan saja.
+          </p>
+          <div class="space-y-2 text-xs text-slate-600">
+            <p><i class="fa-solid fa-envelope text-academic-sky mr-2"></i> support@sma1sjn.sch.id</p>
+            <p><i class="fa-solid fa-phone text-academic-sky mr-2"></i> (031) 896-3212</p>
+            <p><i class="fa-solid fa-location-dot text-academic-sky mr-2"></i> Jl. Raya Sarjanasoft No. 12, Sidoarjo, Indonesia</p>
+          </div>
+        </div>
+        <form onsubmit="Swal.fire('Pesan Terkirim', 'Pesan Anda berhasil diteruskan ke tim support.', 'success'); event.preventDefault();" class="bg-white p-6 rounded-2xl border space-y-4">
+          <div>
+            <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Nama Lengkap</label>
+            <input type="text" required class="w-full bg-slate-50 border rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-academic-sky">
+          </div>
+          <div>
+            <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Pesan Pertanyaan</label>
+            <textarea required rows="3" class="w-full bg-slate-50 border rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-academic-sky"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-academic-navy hover:bg-academic-sky text-white font-bold py-3 text-xs rounded-xl transition-all">Kirim Pesan</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-8 text-center text-xs border-t border-slate-900 mt-auto">
       <p>© 2026 SAWAK Sarjanasoft - Aplikasi Pendamping Digitalisasi Wali Kelas.</p>
     </footer>
   </div>
@@ -212,6 +353,7 @@
 
   <!-- ================= DASHBOARD APP SYSTEM ================= -->
   <div id="dashboardApp" class="min-h-screen flex hidden bg-slate-100">
+    <!-- Sidebar Kiri Collapsible -->
     <aside id="mainSidebar" class="w-64 bg-academic-dark text-slate-300 flex flex-col shadow-xl transition-all duration-300 shrink-0 relative z-30">
       <div class="p-4 border-b border-slate-800 bg-academic-dark/30 flex items-center gap-3">
         <div class="w-10 h-10 rounded-lg bg-academic-sky/20 flex items-center justify-center text-academic-sky border border-academic-sky/30 shrink-0">
@@ -223,6 +365,7 @@
         </div>
       </div>
 
+      <!-- Menu Navigasi Berdasarkan Role -->
       <nav id="sidebarNavMenu" class="flex-1 p-3 space-y-1 overflow-y-auto text-xs font-semibold no-scrollbar"></nav>
 
       <div class="p-4 border-t border-slate-800">
@@ -232,7 +375,9 @@
       </div>
     </aside>
 
+    <!-- Konten Utama (Kanan) -->
     <main class="flex-1 overflow-y-auto flex flex-col min-w-0">
+      <!-- Header Dashboard -->
       <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 shrink-0 relative z-10">
         <div class="flex items-center gap-4">
           <button onclick="toggleSidebarCollapse()" class="p-2 hover:bg-slate-100 rounded-lg text-slate-600 transition-all">
@@ -244,6 +389,7 @@
           </div>
         </div>
         <div class="flex items-center gap-4">
+          <!-- Widget Notifikasi Cepat -->
           <div class="relative cursor-pointer" onclick="switchTab('tab-pantauan-panggilan')" title="Siswa Bermasalah">
             <i class="fa-solid fa-bell text-slate-400 hover:text-slate-600 text-lg"></i>
             <span id="alertNotifBadge" class="absolute -top-1.5 -right-1.5 w-4.5 h-4.5 bg-academic-rose text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white">0</span>
@@ -261,10 +407,12 @@
         </div>
       </header>
 
+      <!-- Area Dashboard Content -->
       <div class="p-6 md:p-8 space-y-6 flex-1">
         
         <!-- ================= TAB: DASHBOARD ANALYTICS (KPI, GRAFIK, RECENT) ================= -->
         <section id="tab-ringkasan" class="tab-content space-y-6">
+          <!-- Widget Kartu KPI (Key Performance Indicators) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:shadow-md transition-all">
               <div>
@@ -296,6 +444,7 @@
             </div>
           </div>
 
+          <!-- Row Panel Grafik Visualisasi -->
           <div class="grid lg:grid-cols-3 gap-6">
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
               <h4 class="font-extrabold text-academic-navy text-xs uppercase tracking-wider">Perbandingan Log Bulanan</h4>
@@ -317,6 +466,7 @@
             </div>
           </div>
 
+          <!-- Panel Log Aktivitas Terbaru -->
           <div class="grid md:grid-cols-2 gap-6">
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
               <h4 class="font-extrabold text-academic-navy text-xs uppercase tracking-wider border-b pb-2 mb-3"><i class="fa-solid fa-envelope-open-text mr-1 text-academic-amber"></i>Peringatan Log SP Baru</h4>
@@ -583,6 +733,7 @@
             <p class="text-[11px] text-slate-400">Kalkulasi status ketidakhadiran, cetak surat SP, dan perekaman mediasi bimbingan konseling</p>
           </div>
           <div class="grid md:grid-cols-3 gap-6">
+            <!-- Kolom SP1 -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
               <h4 class="font-bold text-xs text-yellow-600 border-b pb-2 flex justify-between items-center uppercase tracking-wider">
                 <span>Panggilan 1 (SP1)</span>
@@ -590,6 +741,7 @@
               </h4>
               <div id="sp1ListContainer" class="space-y-2 text-xs"></div>
             </div>
+            <!-- Kolom SP2 -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
               <h4 class="font-bold text-xs text-orange-600 border-b pb-2 flex justify-between items-center uppercase tracking-wider">
                 <span>Panggilan 2 (SP2)</span>
@@ -597,6 +749,7 @@
               </h4>
               <div id="sp2ListContainer" class="space-y-2 text-xs"></div>
             </div>
+            <!-- Kolom SP3 (BK) -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
               <h4 class="font-bold text-xs text-red-600 border-b pb-2 flex justify-between items-center uppercase tracking-wider">
                 <span>Eskalasi BK (SP3)</span>
@@ -660,6 +813,7 @@
               <button onclick="previewSurat()" class="w-full bg-academic-navy text-white text-xs font-bold py-3 rounded-xl hover:bg-academic-sky shadow-md">Tampilkan Dokumen</button>
             </div>
             
+            <!-- Area Preview / Pratinjau Kertas -->
             <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
               <div class="flex justify-between items-center border-b pb-3 mb-4 no-print">
                 <span class="text-xs font-bold text-slate-400 uppercase">Pratinjau Dokumen Cetak</span>
@@ -924,9 +1078,9 @@
 
   <!-- ================= MASTER ENGINE JAVASCRIPT ================= -->
   <script>
-    // Konfigurasi Serverless REST API Apps Script Gateway
+    // Konfigurasi Serverless REST API Apps Script Gateway (Ganti URL di bawah dengan Web App URL Anda saat deploy)
     const CONFIG = {
-      GAS_API_URL: "https://script.google.com/macros/s/AKfycbxXdaA3VMI8XzQEaetvmgshqwi0eVHqgV69ha7yoUUWtIjNX5UGUVB4z0e-lRqQMvOv/exec",
+      GAS_API_URL: "https://script.google.com/macros/s/AKfycbxNSN_fSND70L97TebeyW1IXYPs_QIsWMLstrMh61l9A5Y0qgDcfpMjQ4cM9JdreE4h/exec",
       USE_LOCAL_STORAGE_FALLBACK: false 
     };
 
@@ -985,25 +1139,55 @@
     function initAppStorage() {
       if (CONFIG.USE_LOCAL_STORAGE_FALLBACK) {
         if (!localStorage.getItem("sawak_siswa")) {
+          // Pre-populate Mock Data untuk simulasi instan
           const initialSiswa = [
             { id: "s1", nisn: "210901", nama: "Farhan Mahendra", gender: "L", wali: "Hariadi", telp: "0812345678" },
             { id: "s2", nisn: "210902", nama: "Clarissa Putri", gender: "P", wali: "Indah Wahyuni", telp: "0813987654" },
             { id: "s3", nisn: "210903", nama: "Rendi Pratama", gender: "L", wali: "Bambang Siswanto", telp: "0815555432" },
-            { id: "s4", nisn: "210904", nama: "Nabila Alya", gender: "P", wali: "Rahmat Hidayat", telp: "0812233445" }
+            { id: "s4", nisn: "210904", nama: "Nabila Alya", gender: "P", wali: "Rahmat Hidayat", telp: "0812233445" },
+            { id: "s5", nisn: "210905", nama: "Ridwan Hakim", gender: "L", wali: "Setyono", telp: "0812999444" },
+            { id: "s6", nisn: "210906", nama: "Amelia Lestari", gender: "P", wali: "Achmad Yusuf", telp: "0857311223" }
           ];
           const initialInventaris = [
             { id: "i1", nama: "LCD Proyektor Epson", kode: "EPS-09-22", qty: 1, kondisi: "Baik" },
-            { id: "i2", nama: "Kursi Siswa Kayu", kode: "CH-WOOD-01", qty: 36, kondisi: "Baik" }
+            { id: "i2", nama: "Kursi Siswa Kayu", kode: "CH-WOOD-01", qty: 36, kondisi: "Baik" },
+            { id: "i3", nama: "AC Panasonic Split", kode: "AC-PANA-02", qty: 2, kondisi: "Rusak" }
           ];
           const initialJurnal = [
-            { id: "j1", tanggal: "2026-07-10", kategori: "Mapel Harian", tema: "Matematika Peminatan", uraian: "Persamaan Trigonometri Dasar", hambatan: "Siswa kesulitan memahami sin/cos" }
+            { id: "j1", tanggal: "2026-07-10", kategori: "Mapel Harian", tema: "Matematika Peminatan", uraian: "Persamaan Trigonometri Dasar", hambatan: "Siswa kesulitan memahami konsep sin/cos" },
+            { id: "j2", tanggal: "2026-07-09", kategori: "Proyek P5", tema: "Gaya Hidup Berkelanjutan", uraian: "Pemilahan dan komposting sampah organik kelas", hambatan: "Wadah komposter kurang" }
           ];
+          const initialKasus = [
+            { id: "k1", nisn: "210903", tanggal: "2026-07-08", tingkatSp: "SP3", uraian: "Sering tidur di kelas dan memicu kegaduhan", status: "Aktif" },
+            { id: "k2", nisn: "210905", tanggal: "2026-07-07", tingkatSp: "SP2", uraian: "Terlambat masuk sekolah sebanyak 5 kali berturut-turut", status: "Aktif" }
+          ];
+          const initialDokumen = [
+            { id: "d1", nama: "Modul P5 Gaya Hidup Berkelanjutan", jenis: "Modul P5", url: "https://drive.google.com/file/d/1XyZ_SAMPLE/view" }
+          ];
+
+          // Set Absensi Bulanan dengan beberapa siswa memicu SP secara otomatis
+          const todayMonth = new Date().toISOString().substring(0, 7); 
+          const initialAbsensi = {};
+          
+          // Generate absensi beberapa hari lalu agar muncul data stat/grafik
+          for (let day = 1; day <= 10; day++) {
+            const dateStr = `${todayMonth}-${String(day).padStart(2, '0')}`;
+            initialAbsensi[dateStr] = {
+              "210901": day <= 3 ? "A" : "H", // 3x Alpa -> SP1
+              "210902": "H",                  // Perfect
+              "210903": day <= 8 ? "A" : "H", // 8x Alpa -> SP3 / BK
+              "210904": day === 5 ? "S" : "H",
+              "210905": day <= 5 ? "A" : "H", // 5x Alpa -> SP2
+              "210906": day === 2 ? "I" : "H"
+            };
+          }
+
           localStorage.setItem("sawak_siswa", JSON.stringify(initialSiswa));
           localStorage.setItem("sawak_inventaris", JSON.stringify(initialInventaris));
           localStorage.setItem("sawak_jurnal", JSON.stringify(initialJurnal));
-          localStorage.setItem("sawak_kasus", JSON.stringify([]));
-          localStorage.setItem("sawak_dokumen", JSON.stringify([]));
-          localStorage.setItem("sawak_absensi", JSON.stringify({}));
+          localStorage.setItem("sawak_kasus", JSON.stringify(initialKasus));
+          localStorage.setItem("sawak_dokumen", JSON.stringify(initialDokumen));
+          localStorage.setItem("sawak_absensi", JSON.stringify(initialAbsensi));
           localStorage.setItem("sawak_log_penanganan", JSON.stringify({}));
         }
         
@@ -1090,6 +1274,35 @@
       document.getElementById("dashboardApp").classList.add("hidden");
     }
 
+    function quickDemoLogin() {
+      state.currentRole = "Wali Kelas";
+      state.currentUser = "Ahmad Yani, S.Pd (Wali Kelas Demo)";
+      enterDashboard();
+    }
+
+    function enterDashboard() {
+      toggleAuthModal(false);
+      document.getElementById("landingPage").classList.add("hidden");
+      document.getElementById("dashboardApp").classList.remove("hidden");
+
+      document.getElementById("usrProfileName").innerText = state.currentUser;
+      document.getElementById("usrProfileBadge").innerText = state.currentRole;
+      document.getElementById("headerAdminName").innerText = state.currentUser;
+      document.getElementById("headerAdminRole").innerText = state.currentRole;
+
+      renderSidebarMenu(state.currentRole);
+      recalculateDashboardStats();
+      switchTab("tab-ringkasan");
+      
+      Swal.fire({
+        title: "Akses Demo Terbuka",
+        text: `Selamat datang sebagai ${state.currentRole}`,
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+
     function handleLoginSubmit(e) {
       e.preventDefault();
       const role = document.getElementById("authRole").value;
@@ -1103,27 +1316,7 @@
 
       state.currentRole = role;
       state.currentUser = user.charAt(0).toUpperCase() + user.slice(1);
-      
-      toggleAuthModal(false);
-      document.getElementById("landingPage").classList.add("hidden");
-      document.getElementById("dashboardApp").classList.remove("hidden");
-
-      document.getElementById("usrProfileName").innerText = state.currentUser;
-      document.getElementById("usrProfileBadge").innerText = state.currentRole;
-      document.getElementById("headerAdminName").innerText = state.currentUser;
-      document.getElementById("headerAdminRole").innerText = state.currentRole;
-
-      renderSidebarMenu(role);
-      recalculateDashboardStats();
-      switchTab("tab-ringkasan");
-      
-      Swal.fire({
-        title: "Autentikasi Sukses",
-        text: `Selamat datang, Anda login sebagai ${role}`,
-        icon: "success",
-        timer: 1500,
-        showConfirmButton: false
-      });
+      enterDashboard();
     }
 
     function renderSidebarMenu(role) {
@@ -1336,7 +1529,7 @@
                 <p class="font-extrabold text-slate-700">${log.nama}</p>
                 <p class="text-[10px] text-slate-400">${log.detail}</p>
               </div>
-              <span class="px-2 py-0.5 border rounded text-[9px] font-black uppercase ${log.level.includes("SP3") ? 'bg-rose-50 text-rose-500 border-rose-200':'bg-amber-50 text-amber-500 border-amber-200'}">${log.level}</span>
+              <span class="px-2 py-0.5 border rounded text-[9px] font-black uppercase ${log.level.includes("SP3") ? 'bg-rose-50 text-rose-500 border-rose-200' : 'bg-amber-50 text-amber-500 border-amber-200'}">${log.level}</span>
             </div>
           `;
         });
@@ -1381,8 +1574,8 @@
             <td class="p-4 font-mono">${s.telp}</td>
             <td class="p-4 text-center">
               <div class="flex items-center justify-center gap-2">
-                <button onclick="editSiswa('${s.id}')" class="p-1.5 hover:text-academic-sky"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="deleteSiswa('${s.id}')" class="p-1.5 hover:text-academic-rose"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="editSiswa('${s.id}')" class="p-1.5 hover:text-academic-sky" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteSiswa('${s.id}')" class="p-1.5 hover:text-academic-rose" title="Hapus"><i class="fa-solid fa-trash"></i></button>
               </div>
             </td>
           </tr>
@@ -1473,7 +1666,7 @@
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#EF4444",
-        confirmButtonText: "Ya, Bersihkan"
+        confirmButtonText: "Ya, Hapus"
       }).then((result) => {
         if (result.isConfirmed) {
           state.siswa = state.siswa.filter(x => x.id !== id);
@@ -2021,14 +2214,14 @@
           } else {
             bkSelesaiCount++;
             containerSelesai.innerHTML += `
-              <div class="p-4 bg-white border border-slate-150 rounded-xl shadow-sm space-y-2">
+              <div class="p-4 bg-white border-slate-150 rounded-xl shadow-sm space-y-2">
                 <div class="flex justify-between items-start">
                   <h5 class="font-bold text-xs text-slate-700">${s.nama}</h5>
                   <span class="px-2 py-0.5 bg-emerald-50 text-emerald-600 font-bold text-[9px] rounded">Selesai Dibina</span>
                 </div>
                 <p class="text-[11px] text-slate-500 leading-relaxed italic">"${state.logPenanganan[`${s.nisn}_SP3`]}"</p>
                 <div class="flex justify-end gap-2 pt-2">
-                  <button onclick="selesaikanTindakanBK('${s.nisn}')" class="px-3 py-1.5 bg-academic-sky text-white text-[10px] font-bold rounded-lg hover:bg-sky-600" title="Kembalikan Status Absensi"><i class="fa-solid fa-arrows-spin mr-1"></i>Kembalikan Status</button>
+                  <button onclick="selesaikanTindakanBK('${s.nisn}')" class="px-3 py-1.5 bg-academic-sky text-white text-[10px] font-bold rounded-lg hover:bg-sky-600" title="Kembalikan Status Absensi"><i class="fa-solid fa-arrows-spin mr-1"></i>Pulihkan Absensi</button>
                 </div>
               </div>
             `;
@@ -2111,13 +2304,13 @@
         content = `
           <div class="space-y-4 text-black" style="font-family: 'Times New Roman', Times, serif; font-size: 14px;">
             <p class="text-right">Sidoarjo, ${dateString}</p>
-            <table class="w-full">
+            <table class="w-full text-xs">
               <tr>
-                <td class="w-20">Nomor</td>
+                <td class="w-20 font-bold">Nomor</td>
                 <td>: 421.3 / SAWAK-${type} / XII / 2026</td>
               </tr>
               <tr>
-                <td>Hal</td>
+                <td class="font-bold">Hal</td>
                 <td>: <strong>Panggilan Orang Tua Wali Murid ${spLabel}</strong></td>
               </tr>
             </table>
@@ -2126,28 +2319,28 @@
             
             <p class="indent-8 mt-4 text-justify">Dengan hormat, sehubungan dengan menurunnya tingkat kedisiplinan dan kehadiran putra/putri Bapak/Ibu di lingkungan sekolah, dengan ini kami mengharap kehadiran Bapak/Ibu pada:</p>
             
-            <table class="w-full ml-8">
+            <table class="w-full ml-8 text-xs">
               <tr>
-                <td class="w-28">Hari, Tanggal</td>
+                <td class="w-28 font-bold">Hari, Tanggal</td>
                 <td>: Senin, ${new Date(Date.now() + 86400000 * 2).toLocaleDateString('id-ID', options)}</td>
               </tr>
               <tr>
-                <td>Waktu</td>
+                <td class="font-bold">Waktu</td>
                 <td>: 08.00 WIB - Selesai</td>
               </tr>
               <tr>
-                <td>Tempat</td>
+                <td class="font-bold">Tempat</td>
                 <td>: Ruang Bimbingan Konseling / Wali Kelas XII MIPA 1</td>
               </tr>
               <tr>
-                <td>Agenda</td>
+                <td class="font-bold">Agenda</td>
                 <td>: Koordinasi Khusus Penanganan Absensi Alpa (<span class="font-bold text-rose-600">${totalAlpa} Hari Absen Tanpa Keterangan</span>)</td>
               </tr>
             </table>
 
             <p class="indent-8 text-justify mt-4">Demikian surat panggilan ini kami sampaikan, mengingat pentingnya koordinasi pembinaan karakter ini, kami sangat mengharapkan kehadiran Bapak/Ibu tepat pada waktunya.</p>
 
-            <table class="w-full mt-12 text-center">
+            <table class="w-full mt-12 text-center text-xs">
               <tr>
                 <td class="w-1/2">
                   <p class="mb-16">Mengetahui,<br>Kepala Sekolah</p>
@@ -2166,17 +2359,17 @@
           <div class="space-y-4 text-black" style="font-family: 'Times New Roman', Times, serif; font-size: 14px;">
             <h3 class="text-center font-bold uppercase text-sm underline mb-6">SURAT PERNYATAAN KEDISIPLINAN SISWA</h3>
             <p>Yang bertanda tangan di bawah ini:</p>
-            <table class="w-full ml-6">
-              <tr><td class="w-24">Nama Siswa</td><td>: <strong>${s.nama}</strong></td></tr>
-              <tr><td>NISN</td><td>: ${s.nisn}</td></tr>
-              <tr><td>Kelas</td><td>: ${state.currentKelas}</td></tr>
+            <table class="w-full ml-6 text-xs">
+              <tr><td class="w-24 font-bold">Nama Siswa</td><td>: <strong>${s.nama}</strong></td></tr>
+              <tr><td class="font-bold">NISN</td><td>: ${s.nisn}</td></tr>
+              <tr><td class="font-bold">Kelas</td><td>: ${state.currentKelas}</td></tr>
             </table>
 
             <p class="indent-8 text-justify mt-4">Dengan ini menyatakan dengan sebenar-benarnya bahwa saya mengakui telah melakukan kelalaian berupa ketidakhadiran tanpa keterangan (Alpa) sebanyak <span class="font-bold">${totalAlpa} hari</span> pada bulan berjalan.</p>
             <p class="indent-8 text-justify">Saya berjanji tidak akan mengulangi perbuatan tersebut dan bersedia mematuhi tata tertib sekolah dengan penuh kedisiplinan. Apabila di kemudian hari saya melanggar surat pernyataan ini, maka saya bersedia menerima sanksi akademis yang ditetapkan oleh pihak sekolah.</p>
             <p class="indent-8">Demikian surat pernyataan ini saya buat dalam keadaan sadar tanpa paksaan dari pihak manapun.</p>
 
-            <table class="w-full mt-12 text-center">
+            <table class="w-full mt-12 text-center text-xs">
               <tr>
                 <td>
                   <p class="mb-16">Wali Murid</p>
@@ -2261,13 +2454,13 @@
             <table class="w-full border-collapse border border-black text-[9px] mt-2">
               <thead>
                 <tr class="bg-gray-100">
-                  <th class="border border-black p-2">NISN</th>
-                  <th class="border border-black p-2">Nama Siswa</th>
-                  <th class="border border-black p-2 text-center">Hadir</th>
-                  <th class="border border-black p-2 text-center">Sakit</th>
-                  <th class="border border-black p-2 text-center">Izin</th>
-                  <th class="border border-black p-2 text-center">Alpa</th>
-                  <th class="border border-black p-2 text-center">Hari Efektif Bersih</th>
+                  <th class="border border-black p-2 font-bold">NISN</th>
+                  <th class="border border-black p-2 font-bold">Nama Siswa</th>
+                  <th class="border border-black p-2 font-bold text-center">Hadir</th>
+                  <th class="border border-black p-2 font-bold text-center">Sakit</th>
+                  <th class="border border-black p-2 font-bold text-center">Izin</th>
+                  <th class="border border-black p-2 font-bold text-center">Alpa</th>
+                  <th class="border border-black p-2 font-bold text-center">Hari Efektif Bersih</th>
                 </tr>
               </thead>
               <tbody>
@@ -2299,7 +2492,7 @@
             </table>
 
             <h4 class="font-bold mt-4 border-b pb-1">2. Catatan Pelanggaran & Progres P5</h4>
-            <div class="grid grid-cols-2 gap-4 mt-2">
+            <div class="grid grid-cols-2 gap-4 mt-2 text-[9px]">
               <div>
                 <p class="font-bold text-[10px] underline">Daftar Buku Kasus Bulan Ini:</p>
                 <ul class="list-decimal pl-4 mt-1 space-y-1">
@@ -2329,11 +2522,11 @@
             <table class="w-full border-collapse border border-black text-[9px] mt-2">
               <thead>
                 <tr class="bg-gray-100">
-                  <th class="border border-black p-2">NISN</th>
-                  <th class="border border-black p-2">Nama Lengkap</th>
-                  <th class="border border-black p-2">Kelamin</th>
-                  <th class="border border-black p-2">Orang Tua / Wali</th>
-                  <th class="border border-black p-2">Telepon Darurat</th>
+                  <th class="border border-black p-2 font-bold">NISN</th>
+                  <th class="border border-black p-2 font-bold">Nama Lengkap</th>
+                  <th class="border border-black p-2 font-bold">Kelamin</th>
+                  <th class="border border-black p-2 font-bold">Orang Tua / Wali</th>
+                  <th class="border border-black p-2 font-bold">Telepon Darurat</th>
                 </tr>
               </thead>
               <tbody>
@@ -2353,10 +2546,10 @@
             <table class="w-full border-collapse border border-black text-[9px] mt-2">
               <thead>
                 <tr class="bg-gray-100">
-                  <th class="border border-black p-2">Kode Aset</th>
-                  <th class="border border-black p-2">Nama Barang Properti</th>
-                  <th class="border border-black p-2 text-center">Jumlah Unit</th>
-                  <th class="border border-black p-2 text-center">Status Kondisi</th>
+                  <th class="border border-black p-2 font-bold">Kode Aset</th>
+                  <th class="border border-black p-2 font-bold">Nama Barang Properti</th>
+                  <th class="border border-black p-2 font-bold text-center">Jumlah Unit</th>
+                  <th class="border border-black p-2 font-bold text-center">Status Kondisi</th>
                 </tr>
               </thead>
               <tbody>
